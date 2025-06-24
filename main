@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Smart - Система за туристическо застраховане</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background: white;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content {
+            padding: 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin: 0 3px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+
+        .navbar {
+            background: #2c3e50;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .navbar a:hover {
+            background: #34495e;
+        }
+
+        .dashboard-main {
+            margin-top: 20px;
+        }
+
+        .search-export-bar {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            align-items: end;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .table th,
+        .table td {
+            padding: 16px 25px;
+            text-align: left;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .table td .btn {
+            margin: 2px 4px;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .table th {
+            background: #fafbfc;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .offer-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .country-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .country-option {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .country-option:hover {
+            background: #f8f9fa;
+        }
+
+        .traveler-entry {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+        }
+
+        .progress-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .progress-track {
+            width: 100%;
+            background: #e1e5e9;
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        .progress-fill {
+            background: #4CAF50;
+            height: 6px;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .custom-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-popup.show {
+            display: flex;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: popupSlide 0.3s ease-out;
+        }
+
+        @keyframes popupSlide {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-content h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .popup-content p {
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Popup -->
+    <div id="customPopup" class="custom-popup">
+        <div class="popup-content">
+            <h3 id="popupTitle">Заглавие</h3>
+            <p id="popupMessage">Съобщение</p>
+            <div class="popup-buttons">
+                <button class="btn" id="popupConfirm">Да</button>
+                <button class="btn btn-secondary" id="popupCancel">Не</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вход -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-form">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">Travel Smart</h2>
+            <form>
+                <div class="form-group">
+                    <label for="email">Имейл</label>
+                    <input type="email" id="email" class="form-control" placeholder="Въведете вашия имейл">
+                </div>
+                <div class="form-group">
+                    <label for="password">Парола</label>
+                    <input type="password" id="password" class="form-control" placeholder="Въведете вашата парола">
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <input type="checkbox" id="remember"> 
+                    <label for="remember" style="display: inline; margin-left: 8px;">Запомни ме</label>
+                </div>
+                <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('dashboardScreen')">Влез</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('signupScreen')">Създай профил</button>
+                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="showScreen('dashboardScreen')">Брокер вход</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Регистрация -->
+    <div id="signupScreen" class="screen">
+        <div class="login-form">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">Създай профил</h2>
+            <form>
+                <div class="form-group">
+                    <label for="companyName">Име на агенцията</label>
+                    <input type="text" id="companyName" class="form-control" placeholder="Име на туристическата агенция">
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Имейл</label>
+                    <input type="email" id="signupEmail" class="form-control" placeholder="Въведете вашия имейл">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Парола</label>
+                    <input type="password" id="signupPassword" class="form-control" placeholder="Създайте парола">
+                </div>
+                <div class="form-group">
+                    <label for="authCode">Код за удостоверяване</label>
+                    <input type="text" id="authCode" class="form-control" placeholder="Въведете предоставения код">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="enable2fa"> 
+                    <label for="enable2fa" style="display: inline; margin-left: 8px;">Включи двуфакторна автентификация</label>
+                </div>
+                <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('dashboardScreen')">Създай профил</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%;" onclick="showScreen('loginScreen')">Назад към входа</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Табло на агенцията -->
+    <div id="dashboardScreen" class="screen">
+        <div class="header">
+            <div class="logo">Travel Smart</div>
+            <div class="user-info">
+                <span>Добре дошли, Туристическа агенция XYZ</span>
+                <button class="btn btn-secondary" onclick="showScreen('loginScreen')">Изход</button>
+            </div>
+        </div>
+        
+        <div class="navbar">
+            <div class="navbar-left">
+                <a href="#" onclick="showDashboardTab('offers')">Оферти</a>
+                <a href="#" onclick="showDashboardTab('policies')">Полици</a>
+                <a href="#" onclick="showDashboardTab('export')">Експорт</a>
+                <a href="#" onclick="showDashboardTab('users')" id="usersNavLink" style="display: none;">Потребители</a>
+                <a href="#" onclick="showDashboardTab('settings')">Настройки</a>
+            </div>
+            <div>
+                <button class="btn" onclick="showScreen('newOfferScreen')">+ Нова оферта</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Раздел Оферти -->
+            <div id="offersTab" class="dashboard-tab">
+                <div class="search-export-bar">
+                    <div>
+                        <h3 style="margin-bottom: 15px; color: #2c3e50;">Търсене на оферти</h3>
+                        <input type="text" class="form-control" placeholder="Номер на оферта или име на клиент" id="searchOffers">
+                    </div>
+                    <div>
+                        <button class="btn" onclick="searchOffers()" style="width: 100%;">Търси</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Създадени оферти</h3>
+                        <button class="btn" onclick="showScreen('newOfferScreen')">+ Нова оферта</button>
+                    </div>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Номер на оферта</th>
+                                <th>Клиент</th>
+                                <th>Дестинация</th>
+                                <th>Дати на пътуване</th>
+                                <th>Премия</th>
+                                <th>Застраховател</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="offersTableBody">
+                            <tr>
+                                <td>OF-2025-001</td>
+                                <td>Иван Петров</td>
+                                <td>Мадрид, Испания</td>
+                                <td>15.07.2025 - 25.07.2025</td>
+                                <td>125 лв.</td>
+                                <td><span class="badge badge-info">Euroins</span></td>
+                                <td><span class="badge badge-warning">Оферта</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="editOffer('OF-2025-001')">Редактирай</button>
+                                    <button class="btn btn-primary" onclick="createPolicyFromOffer('OF-2025-001')">Създай полица</button>
+                                    <button class="btn" onclick="viewOffer('OF-2025-001')">Преглед</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OF-2025-002</td>
+                                <td>Мария Георгиева</td>
+                                <td>Рим, Италия</td>
+                                <td>01.08.2025 - 14.08.2025</td>
+                                <td>185 лв.</td>
+                                <td><span class="badge badge-info">Allianz</span></td>
+                                <td><span class="badge badge-warning">Оферта</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="editOffer('OF-2025-002')">Редактирай</button>
+                                    <button class="btn btn-primary" onclick="createPolicyFromOffer('OF-2025-002')">Създай полица</button>
+                                    <button class="btn" onclick="viewOffer('OF-2025-002')">Преглед</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Раздел Полици -->
+            <div id="policiesTab" class="dashboard-tab" style="display: none;">
+                <div class="search-export-bar">
+                    <div>
+                        <h3 style="margin-bottom: 15px; color: #2c3e50;">Търсене на полици</h3>
+                        <input type="text" class="form-control" placeholder="Номер на полица или име на клиент" id="searchPolicies">
+                    </div>
+                    <div>
+                        <button class="btn" onclick="searchPolicies()" style="width: 100%;">Търси</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Активни полици</h3>
+                    </div>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Номер на полица</th>
+                                <th>Клиент</th>
+                                <th>Дестинация</th>
+                                <th>Дати на пътуване</th>
+                                <th>Премия</th>
+                                <th>Застраховател</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="policiesTableBody">
+                            <tr>
+                                <td>TG-2025-001</td>
+                                <td>Георги Димитров</td>
+                                <td>Париж, Франция</td>
+                                <td>10.09.2025 - 20.09.2025</td>
+                                <td>155 лв.</td>
+                                <td><span class="badge badge-info">Uniqa</span></td>
+                                <td><span class="badge badge-success">Активна</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="editPolicy('TG-2025-001')">Редактирай</button>
+                                    <button class="btn btn-primary" onclick="viewPolicy('TG-2025-001')">Преглед</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Раздел Експорт -->
+            <div id="exportTab" class="dashboard-tab" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Експорт на данни</h3>
+                    </div>
+                    <div style="padding: 40px;">
+                        <div style="max-width: 600px; margin: 0 auto;">
+                            <div class="form-group">
+                                <label>Тип данни за експорт</label>
+                                <select id="exportType" class="form-control">
+                                    <option value="policies">Полици</option>
+                                    <option value="offers">Оферти</option>
+                                    <option value="all">Всички данни</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>От дата</label>
+                                    <input type="date" id="exportFromDate" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>До дата</label>
+                                    <input type="date" id="exportToDate" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Формат на файла</label>
+                                <select id="exportFormat" class="form-control">
+                                    <option value="excel">Excel (.xlsx)</option>
+                                    <option value="csv">CSV</option>
+                                    <option value="pdf">PDF</option>
+                                </select>
+                            </div>
+
+                            <div style="text-align: center; margin-top: 30px;">
+                                <button class="btn" onclick="performExport()" style="font-size: 16px; padding: 15px 40px;">
+                                    Изтегли файл
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Раздел Потребители -->
+            <div id="usersTab" class="dashboard-tab" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Управление на потребители</h3>
+                        <button class="btn" onclick="showModal('addUserModal')">+ Добави потребител</button>
+                    </div>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Име</th>
+                                <th>Имейл</th>
+                                <th>Роля</th>
+                                <th>Статус</th>
+                                <th>Последен вход</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td>Петър Иванов</td>
+                                <td>petar@travelxyz.com</td>
+                                <td><span class="badge" style="background: #f8d7da; color: #721c24;">Администратор</span></td>
+                                <td><span class="badge badge-success">Активен</span></td>
+                                <td>24.06.2025 14:30</td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="editUser('user1')">Редактирай</button>
+                                    <button class="btn btn-danger" onclick="removeUser('user1')">Премахни</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Раздел Настройки -->
+            <div id="settingsTab" class="dashboard-tab" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Информация за компанията</h3>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div class="form-group">
+                                <label>Име на компанията</label>
+                                <input type="text" class="form-control" value="Туристическа агенция XYZ">
+                            </div>
+                            <div class="form-group">
+                                <label>Контактен имейл</label>
+                                <input type="email" class="form-control" value="contact@travelxyz.com">
+                            </div>
+                            <button class="btn">Запази промените</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Управление на потребители</h3>
+                        </div>
+                        <div style="padding: 25px;">
+                            <p>Текущи потребители: 3</p>
+                            <div style="margin-top: 20px;">
+                                <button class="btn" onclick="showDashboardTab('users')" style="width: 100%; margin-bottom: 10px;">Управлявай потребители</button>
+                                <button class="btn btn-secondary" style="width: 100%;">Настройки на разрешения</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нова оферта - Стъпка 1 -->
+    <div id="newOfferScreen" class="screen">
+        <div class="header">
+            <div class="logo">Travel Smart - Нова оферта</div>
+            <div class="user-info">
+                <button class="btn btn-secondary" onclick="showScreen('dashboardScreen')">Назад към таблото</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="font-weight: bold; color: #4CAF50;">Стъпка 1 от 2</span>
+                    <span style="color: #666;">Детайли за пътуването</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: 50%;"></div>
+                </div>
+            </div>
+
+            <div class="offer-form">
+                <h2 style="margin-bottom: 30px; color: #4CAF50;">Детайли за пътуването</h2>
+                
+                <div class="form-group">
+                    <label for="travelDestination">Дестинация</label>
+                    <div style="position: relative;">
+                        <input type="text" id="travelDestination" class="form-control" placeholder="Въведете или изберете дестинация" onkeyup="filterCountries()" onclick="showCountryDropdown()">
+                        <div id="countryDropdown" class="country-dropdown">
+                            <!-- Countries will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="travelPurpose">Цел на пътуването</label>
+                    <select id="travelPurpose" class="form-control">
+                        <option value="">Изберете цел</option>
+                        <option value="business">Бизнес</option>
+                        <option value="leisure">Туризъм/Почивка</option>
+                        <option value="study">Образование/Учеба</option>
+                        <option value="medical">Медицинско лечение</option>
+                        <option value="family">Посещение на семейство</option>
+                        <option value="sports">Спортни дейности</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="insuranceAmount">Застрахователна сума</label>
+                    <select id="insuranceAmount" class="form-control">
+                        <option value="">Изберете сума</option>
+                        <option value="30000">30,000 евро</option>
+                        <option value="50000">50,000 евро</option>
+                        <option value="100000">100,000 евро</option>
+                        <option value="200000">200,000 евро</option>
+                        <option value="500000">500,000 евро</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Пътуващи</label>
+                    <div id="travelersContainer">
+                        <div class="traveler-entry">
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #666;">Възраст</label>
+                                <input type="number" class="form-control" placeholder="Възраст" min="0" max="120" onchange="updateTravelersCount()">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addTraveler()">+ Добави пътуващ</button>
+                    <div style="margin-top: 10px;">
+                        <small style="color: #666;">Общо пътуващи: <span id="travelersCount">1</span></small>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; text-align: center;">
+                    <button type="button" class="btn" style="font-size: 18px; padding: 15px 40px;" onclick="proceedToOffers()">Продължи към оферти</button>
+                    <button type="button" class="btn btn-secondary" style="margin-left: 20px;" onclick="showScreen('dashboardScreen')">Отказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Избор на оферти - Стъпка 2 -->
+    <div id="selectOffersScreen" class="screen">
+        <div class="header">
+            <div class="logo">Travel Smart - Избор на оферта</div>
+            <div class="user-info">
+                <button class="btn btn-secondary" onclick="showScreen('newOfferScreen')">Назад</button>
+                <button class="btn btn-secondary" onclick="showScreen('dashboardScreen')">Към таблото</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="font-weight: bold; color: #4CAF50;">Стъпка 2 от 2</span>
+                    <span style="color: #666;">Избор на застрахователна оферта</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 15px rgba(0,0,0,0.08);">
+                <h3 style="margin-bottom: 20px; color: #2c3e50;">Резюме на пътуването</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div>
+                        <strong>Дестинация:</strong>
+                        <div id="summaryDestination">-</div>
+                    </div>
+                    <div>
+                        <strong>Цел:</strong>
+                        <div id="summaryPurpose">-</div>
+                    </div>
+                    <div>
+                        <strong>Застрахователна сума:</strong>
+                        <div id="summaryAmount">-</div>
+                    </div>
+                    <div>
+                        <strong>Брой пътуващи:</strong>
+                        <div id="summaryTravelers">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.08); overflow: hidden;">
+                <div style="background: #f8f9fa; padding: 20px; border-bottom: 1px solid #e1e5e9;">
+                    <h3 style="margin: 0; color: #2c3e50;">Налични застрахователни оферти</h3>
+                </div>
+                
+                <div id="insuranceOffersContainer" style="padding: 20px;">
+                    <!-- Offers will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('addUserModal')">&times;</span>
+            <h3>Добави нов потребител</h3>
+            <div class="form-group">
+                <label>Пълно име</label>
+                <input type="text" class="form-control" placeholder="Въведете пълното име" id="newUserName">
+            </div>
+            <div class="form-group">
+                <label>Имейл</label>
+                <input type="email" class="form-control" placeholder="Въведете имейл" id="newUserEmail">
+            </div>
+            <div class="form-group">
+                <label>Роля</label>
+                <select class="form-control" id="newUserRole">
+                    <option value="user">Потребител</option>
+                    <option value="admin">Администратор</option>
+                </select>
+            </div>
+            <button type="button" class="btn" onclick="addNewUser()">Изпрати покана</button>
+            <button type="button" class="btn btn-secondary" onclick="hideModal('addUserModal')">Отказ</button>
+        </div>
+    </div>
+
+    <div id="createPolicyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('createPolicyModal')">&times;</span>
+            <h3>Създай полица от оферта</h3>
+            <p>Оферта номер: <strong id="offerNumber"></strong></p>
+            <div id="travelersContainer">
+                <!-- Динамично се генерира -->
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="btn" onclick="finalizePolicy()">Създай полица</button>
+                <button class="btn btn-secondary" onclick="hideModal('createPolicyModal')">Отказ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Custom popup functions
+        function showCustomPopup(title, message, onConfirm, onCancel = null) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupMessage').textContent = message;
+            
+            const popup = document.getElementById('customPopup');
+            const confirmBtn = document.getElementById('popupConfirm');
+            const cancelBtn = document.getElementById('popupCancel');
+            
+            // Clear previous event listeners
+            confirmBtn.onclick = null;
+            cancelBtn.onclick = null;
+            
+            // Set new event listeners
+            confirmBtn.onclick = function() {
+                hideCustomPopup();
+                if (onConfirm) onConfirm();
+            };
+            
+            if (onCancel) {
+                cancelBtn.style.display = 'inline-block';
+                cancelBtn.onclick = function() {
+                    hideCustomPopup();
+                    onCancel();
+                };
+            } else {
+                cancelBtn.style.display = 'none';
+            }
+            
+            popup.classList.add('show');
+        }
+
+        function hideCustomPopup() {
+            document.getElementById('customPopup').classList.remove('show');
+        }
+
+        function showAlert(title, message) {
+            showCustomPopup(title, message, null, null);
+        }
+
+        function showConfirm(title, message, onConfirm, onCancel) {
+            showCustomPopup(title, message, onConfirm, onCancel);
+        }
+
+        // Global variables
+        let currentUserRole = 'admin';
+        let currentOfferData = {};
+        
+        let countries = [
+            'Австрия', 'Австралия', 'Белгия', 'България', 'Великобритания', 'Германия', 'Гърция', 
+            'Дания', 'Египет', 'Испания', 'Италия', 'Кипър', 'Малта', 'Нидерландия', 'Норвегия',
+            'Полша', 'Португалия', 'Румъния', 'САЩ', 'Тайланд', 'Турция', 'Франция', 'Хърватия',
+            'Чехия', 'Швейцария', 'Швеция'
+        ];
+
+        let insuranceCompanies = [
+            { name: 'Euroins', logo: '🛡️', color: '#e74c3c' },
+            { name: 'Allianz', logo: '🔷', color: '#3498db' },
+            { name: 'Uniqa', logo: '🟦', color: '#9b59b6' },
+            { name: 'Lev Ins', logo: '🦁', color: '#f39c12' },
+            { name: 'Bulstrad', logo: '⭐', color: '#27ae60' }
+        ];
+
+        let offers = [
+            {
+                id: 'OF-2025-001',
+                client: 'Иван Петров',
+                destination: 'Мадрид, Испания',
+                dates: '15.07.2025 - 25.07.2025',
+                premium: '125 лв.',
+                company: 'Euroins',
+                travelersCount: 2,
+                status: 'offer'
+            },
+            {
+                id: 'OF-2025-002',
+                client: 'Мария Георгиева',
+                destination: 'Рим, Италия',
+                dates: '01.08.2025 - 14.08.2025',
+                premium: '185 лв.',
+                company: 'Allianz',
+                travelersCount: 1,
+                status: 'offer'
+            }
+        ];
+
+        let policies = [
+            {
+                id: 'TG-2025-001',
+                client: 'Георги Димитров',
+                destination: 'Париж, Франция',
+                dates: '10.09.2025 - 20.09.2025',
+                premium: '155 лв.',
+                company: 'Uniqa',
+                status: 'active'
+            }
+        ];
+
+        // Core functions
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showDashboardTab(tabId) {
+            document.querySelectorAll('.dashboard-tab').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.getElementById(tabId + 'Tab').style.display = 'block';
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Country dropdown functions
+        function showCountryDropdown() {
+            const dropdown = document.getElementById('countryDropdown');
+            dropdown.style.display = 'block';
+            populateCountries();
+        }
+
+        function populateCountries(filter = '') {
+            const dropdown = document.getElementById('countryDropdown');
+            const filteredCountries = countries.filter(country => 
+                country.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            dropdown.innerHTML = filteredCountries.map(country => 
+                `<div class="country-option" onclick="selectCountry('${country}')">${country}</div>`
+            ).join('');
+        }
+
+        function filterCountries() {
+            const input = document.getElementById('travelDestination');
+            populateCountries(input.value);
+        }
+
+        function selectCountry(country) {
+            document.getElementById('travelDestination').value = country;
+            document.getElementById('countryDropdown').style.display = 'none';
+        }
+
+        // Traveler functions
+        function addTraveler() {
+            const container = document.getElementById('travelersContainer');
+            const travelerDiv = document.createElement('div');
+            travelerDiv.className = 'traveler-entry';
+            travelerDiv.innerHTML = `
+                <div style="flex: 1;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #666;">Възраст</label>
+                    <input type="number" class="form-control" placeholder="Възраст" min="0" max="120" onchange="updateTravelersCount()">
+                </div>
+                <button type="button" class="btn btn-danger" onclick="removeTraveler(this)">Премахни</button>
+            `;
+            container.appendChild(travelerDiv);
+            updateTravelersCount();
+        }
+
+        function removeTraveler(button) {
+            const container = document.getElementById('travelersContainer');
+            if (container.children.length > 1) {
+                button.parentElement.remove();
+                updateTravelersCount();
+            } else {
+                showAlert('Внимание', 'Трябва да има поне един пътуващ!');
+            }
+        }
+
+        function updateTravelersCount() {
+            const container = document.getElementById('travelersContainer');
+            const count = container.children.length;
+            document.getElementById('travelersCount').textContent = count;
+        }
+
+        // Offer creation functions
+        function proceedToOffers() {
+            const destination = document.getElementById('travelDestination').value;
+            const purpose = document.getElementById('travelPurpose').value;
+            const amount = document.getElementById('insuranceAmount').value;
+            const ageInputs = document.querySelectorAll('#travelersContainer input[type="number"]');
+            
+            if (!destination || !purpose || !amount) {
+                showAlert('Грешка', 'Моля попълнете всички полета!');
+                return;
+            }
+
+            const ages = Array.from(ageInputs).map(input => input.value).filter(age => age);
+            if (ages.length !== ageInputs.length) {
+                showAlert('Грешка', 'Моля въведете възрастта на всички пътуващи!');
+                return;
+            }
+
+            currentOfferData = {
+                destination,
+                purpose,
+                amount,
+                ages,
+                travelersCount: ages.length
+            };
+
+            updateOfferSummary();
+            generateInsuranceOffers();
+            showScreen('selectOffersScreen');
+        }
+
+        function updateOfferSummary() {
+            const purposeMap = {
+                'business': 'Бизнес',
+                'leisure': 'Туризъм/Почивка',
+                'study': 'Образование/Учеба',
+                'medical': 'Медицинско лечение',
+                'family': 'Посещение на семейство',
+                'sports': 'Спортни дейности'
+            };
+
+            document.getElementById('summaryDestination').textContent = currentOfferData.destination;
+            document.getElementById('summaryPurpose').textContent = purposeMap[currentOfferData.purpose];
+            document.getElementById('summaryAmount').textContent = new Intl.NumberFormat('bg-BG').format(currentOfferData.amount) + ' евро';
+            document.getElementById('summaryTravelers').textContent = currentOfferData.travelersCount + ' (' + currentOfferData.ages.join(', ') + ' г.)';
+        }
+
+        function generateInsuranceOffers() {
+            const container = document.getElementById('insuranceOffersContainer');
+            const basePrice = calculateBasePrice();
+            
+            container.innerHTML = insuranceCompanies.map((company) => {
+                const price = Math.round(basePrice * (0.8 + Math.random() * 0.4));
+                const features = getCompanyFeatures(company.name);
+                
+                return `
+                    <div style="border: 2px solid #e1e5e9; border-radius: 10px; padding: 20px; margin-bottom: 15px; cursor: pointer;" 
+                         onclick="selectInsuranceOffer('${company.name}', ${price})">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 24px;">${company.logo}</span>
+                                <h4 style="margin: 0; color: ${company.color};">${company.name}</h4>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 24px; font-weight: bold; color: ${company.color};">${price} лв.</div>
+                                <div style="font-size: 14px; color: #666;">за цялото пътуване</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                            ${features.map(feature => `<div style="color: #666; font-size: 14px;">✓ ${feature}</div>`).join('')}
+                        </div>
+                        <div style="margin-top: 15px; text-align: center;">
+                            <button class="btn" style="background: ${company.color};">Избери тази оферта</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function calculateBasePrice() {
+            const amount = parseInt(currentOfferData.amount);
+            const travelersCount = currentOfferData.travelersCount;
+            const avgAge = currentOfferData.ages.reduce((sum, age) => sum + parseInt(age), 0) / currentOfferData.ages.length;
+            
+            let basePrice = amount * 0.002;
+            basePrice *= travelersCount;
+            
+            if (avgAge > 65) basePrice *= 1.5;
+            else if (avgAge > 45) basePrice *= 1.2;
+            
+            return Math.round(basePrice);
+        }
+
+        function getCompanyFeatures(companyName) {
+            const features = {
+                'Euroins': ['Медицински разходи', '24/7 асистентска линия', 'Покритие за багаж', 'Отмяна на пътуване'],
+                'Allianz': ['Световно покритие', 'Спортни дейности', 'Разширено медицинско покритие', 'Бърза обработка'],
+                'Uniqa': ['Гъвкави условия', 'Онлайн управление', 'Семейни отстъпки', 'Покритие за COVID-19'],
+                'Lev Ins': ['Конкурентни цени', 'Бърза обработка', 'Местна поддръжка', 'Опростена процедура'],
+                'Bulstrad': ['Традиционен застраховател', 'Широка мрежа партньори', 'Надеждно покритие', 'Дългогодишен опит']
+            };
+            return features[companyName] || [];
+        }
+
+        function selectInsuranceOffer(companyName, price) {
+            showConfirm('Потвърдете избора', 
+                `Сигурни ли сте, че искате да изберете офертата от ${companyName} за ${price} лв.?`,
+                () => createOfferWithCompany(companyName, price),
+                null
+            );
+        }
+
+        function createOfferWithCompany(companyName, price) {
+            const newOfferNumber = 'OF-2025-' + String(offers.length + 1).padStart(3, '0');
+            const newOffer = {
+                id: newOfferNumber,
+                client: 'Нов клиент',
+                destination: currentOfferData.destination,
+                dates: 'Не е посочено',
+                premium: price + ' лв.',
+                company: companyName,
+                travelersCount: currentOfferData.travelersCount,
+                status: 'offer'
+            };
+
+            offers.push(newOffer);
+            updateOffersTable();
+
+            showAlert('Успех', `Офертата беше създадена успешно!\nНомер: ${newOfferNumber}\nЗастраховател: ${companyName}\nЦена: ${price} лв.`);
+            
+            currentOfferData = {};
+            showScreen('dashboardScreen');
+            showDashboardTab('offers');
+        }
+
+        // Table update functions
+        function updateOffersTable() {
+            const tbody = document.getElementById('offersTableBody');
+            tbody.innerHTML = '';
+
+            offers.forEach(offer => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${offer.id}</td>
+                    <td>${offer.client}</td>
+                    <td>${offer.destination}</td>
+                    <td>${offer.dates}</td>
+                    <td>${offer.premium}</td>
+                    <td><span class="badge badge-info">${offer.company}</span></td>
+                    <td><span class="badge badge-warning">Оферта</span></td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editOffer('${offer.id}')">Редактирай</button>
+                        <button class="btn btn-primary" onclick="createPolicyFromOffer('${offer.id}')">Създай полица</button>
+                        <button class="btn" onclick="viewOffer('${offer.id}')">Преглед</button>
+                    </td>
+                `;
+            });
+        }
+
+        function updatePoliciesTable() {
+            const tbody = document.getElementById('policiesTableBody');
+            tbody.innerHTML = '';
+
+            policies.forEach(policy => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${policy.id}</td>
+                    <td>${policy.client}</td>
+                    <td>${policy.destination}</td>
+                    <td>${policy.dates}</td>
+                    <td>${policy.premium}</td>
+                    <td><span class="badge badge-info">${policy.company}</span></td>
+                    <td><span class="badge badge-success">Активна</span></td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editPolicy('${policy.id}')">Редактирай</button>
+                        <button class="btn btn-primary" onclick="viewPolicy('${policy.id}')">Преглед</button>
+                    </td>
+                `;
+            });
+        }
+
+        // Search functions
+        function searchOffers() {
+            const searchTerm = document.getElementById('searchOffers').value.toLowerCase();
+            const tbody = document.getElementById('offersTableBody');
+            const rows = tbody.getElementsByTagName('tr');
+
+            Array.from(rows).forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function searchPolicies() {
+            const searchTerm = document.getElementById('searchPolicies').value.toLowerCase();
+            const tbody = document.getElementById('policiesTableBody');
+            const rows = tbody.getElementsByTagName('tr');
+
+            Array.from(rows).forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        // User management functions
+        function addNewUser() {
+            const name = document.getElementById('newUserName').value;
+            const email = document.getElementById('newUserEmail').value;
+            
+            if (!name || !email) {
+                showAlert('Грешка', 'Моля попълнете всички полета!');
+                return;
+            }
+
+            showAlert('Успех', 'Поканата е изпратена успешно на ' + email);
+            hideModal('addUserModal');
+            
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserEmail').value = '';
+        }
+
+        // Policy creation functions
+        function createPolicyFromOffer(offerId) {
+            const offer = offers.find(o => o.id === offerId);
+            if (!offer) return;
+
+            document.getElementById('offerNumber').textContent = offerId;
+            showModal('createPolicyModal');
+        }
+
+        function finalizePolicy() {
+            const offerId = document.getElementById('offerNumber').textContent;
+            const offer = offers.find(o => o.id === offerId);
+            
+            if (offer) {
+                const newPolicyNumber = 'TG-2025-' + String(policies.length + 1).padStart(3, '0');
+                const newPolicy = {
+                    id: newPolicyNumber,
+                    client: offer.client,
+                    destination: offer.destination,
+                    dates: offer.dates,
+                    premium: offer.premium,
+                    company: offer.company,
+                    status: 'active'
+                };
+
+                policies.push(newPolicy);
+                
+                const offerIndex = offers.findIndex(o => o.id === offerId);
+                if (offerIndex > -1) {
+                    offers.splice(offerIndex, 1);
+                }
+
+                updateOffersTable();
+                updatePoliciesTable();
+
+                showAlert('Успех', 'Полицата беше създадена успешно! Номер на полица: ' + newPolicyNumber);
+                hideModal('createPolicyModal');
+                showDashboardTab('policies');
+            }
+        }
+
+        // Export function
+        function performExport() {
+            const exportType = document.getElementById('exportType').value;
+            const fromDate = document.getElementById('exportFromDate').value;
+            const toDate = document.getElementById('exportToDate').value;
+            const format = document.getElementById('exportFormat').value;
+
+            if (!fromDate || !toDate) {
+                showAlert('Грешка', 'Моля изберете период за експорт!');
+                return;
+            }
+
+            showAlert('Експорт', `Експортиране на ${exportType} от ${fromDate} до ${toDate} във формат ${format}...`);
+        }
+
+        // Placeholder functions
+        function editOffer(offerId) {
+            showAlert('Функция', 'Редактиране на оферта: ' + offerId);
+        }
+
+        function viewOffer(offerId) {
+            showAlert('Функция', 'Преглед на оферта: ' + offerId);
+        }
+
+        function editPolicy(policyId) {
+            showAlert('Функция', 'Редактиране на полица: ' + policyId);
+        }
+
+        function viewPolicy(policyId) {
+            showAlert('Функция', 'Преглед на полица: ' + policyId);
+        }
+
+        function editUser(userId) {
+            showAlert('Функция', 'Редактиране на потребител: ' + userId);
+        }
+
+        function removeUser(userId) {
+            showAlert('Функция', 'Премахване на потребител: ' + userId);
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            showDashboardTab('offers');
+            
+            if (currentUserRole === 'admin') {
+                document.getElementById('usersNavLink').style.display = 'block';
+            }
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('countryDropdown');
+            const input = document.getElementById('travelDestination');
+            if (dropdown && input && !dropdown.contains(event.target) && event.target !== input) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+            if (event.target.classList.contains('custom-popup')) {
+                hideCustomPopup();
+            }
+        };
+    </script>
+</body>
+</html>
