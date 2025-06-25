@@ -616,7 +616,30 @@
                 </div>
                 <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('dashboardScreen')">Влез</button>
                 <button type="button" class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('signupScreen')">Създай профил</button>
-                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="brokerLogin()">Брокер вход</button>
+                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="showScreen('brokerLoginScreen')">Брокер вход</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Broker Login Form -->
+    <div id="brokerLoginScreen" class="screen">
+        <div class="login-form">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">Брокер Вход</h2>
+            <form>
+                <div class="form-group">
+                    <label for="brokerEmail">Имейл</label>
+                    <input type="email" id="brokerEmail" class="form-control" placeholder="Въведете имейл">
+                </div>
+                <div class="form-group">
+                    <label for="brokerPassword">Парола</label>
+                    <input type="password" id="brokerPassword" class="form-control" placeholder="Въведете парола">
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <input type="checkbox" id="showBrokerPass" onclick="toggleBrokerPassword()">
+                    <label for="showBrokerPass" style="display: inline; margin-left: 8px;">Покажи паролата</label>
+                </div>
+                <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="performBrokerLogin()">Влез</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%;" onclick="showScreen('loginScreen')">Назад</button>
             </form>
         </div>
     </div>
@@ -677,7 +700,7 @@
             type="button"
             class="btn"
             style="width: 100%; margin-bottom: 15px;"
-            onclick="showScreen('loginScreen')"
+            onclick="logoutBroker()"
           >
             Изход
           </button>
@@ -2257,8 +2280,8 @@ var agencies = [
 
 // 3) Entry point for broker login
 function brokerLogin() {
-  // Auto-login straight to broker/admin view:
-  showBrokerScreen();
+  // Open broker login form
+  showScreen('brokerLoginScreen');
 }
 
 
@@ -2320,6 +2343,7 @@ function updateDashboardForAgency() {
 
 // === end broker / master-admin additions ===
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
 
