@@ -2257,24 +2257,10 @@ var agencies = [
 
 // 3) Entry point for broker login
 function brokerLogin() {
-  var email = prompt('Email:'), pass = prompt('Password:');
-  if (email === masterUser.email && pass === masterUser.password) {
-    // master-admin mode
-    currentUserRole = 'master';
-    showBrokerScreen();
-  } else {
-    // try agency login
-    var agency = agencies.find(a => a.email === email && a.password === pass);
-    if (agency) {
-      currentUserRole = 'agency';
-      currentAgency = agency;
-      showScreen('dashboardScreen');
-      updateDashboardForAgency();
-    } else {
-      showAlert('Грешка', 'Невалидни данни!');
-    }
-  }
+  // Auto-login straight to broker/admin view:
+  showBrokerScreen();
 }
+
 
 // 4) Show the broker-admin screen and render the list
 function showBrokerScreen() {
