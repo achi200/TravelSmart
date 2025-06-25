@@ -155,8 +155,170 @@
             background: #34495e;
         }
 
-        .dashboard-main {
-            margin-top: 20px;
+        .navbar a.active {
+            background: #34495e;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .dashboard-tab {
+            display: none;
+        }
+
+        .traveler-entry {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .traveler-number {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .sort-filter-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sort-filter-bar select,
+        .sort-filter-bar input {
+            padding: 8px 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .insurance-offer-card {
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .insurance-offer-card:hover {
+            border-color: #4CAF50;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .company-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .company-logo {
+            font-size: 32px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f8f9fa;
+        }
+
+        .price-info {
+            text-align: right;
+        }
+
+        .price-main {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .price-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .company-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .company-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .more-info-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .more-info-link:hover {
+            text-decoration: underline;
         }
 
         .search-export-bar {
@@ -217,6 +379,35 @@
             font-weight: 600;
             color: #555;
             font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+        }
+
+        .table th:hover {
+            background: #f0f0f0;
+        }
+
+        .table th.sortable::after {
+            content: '↕️';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            opacity: 0.5;
+        }
+
+        .table th.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+            color: #4CAF50;
+        }
+
+        .table th.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+            color: #4CAF50;
         }
 
         .table tbody tr:hover {
@@ -312,16 +503,6 @@
 
         .country-option:hover {
             background: #f8f9fa;
-        }
-
-        .traveler-entry {
-            display: flex;
-            gap: 15px;
-            align-items: end;
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
         }
 
         .progress-bar {
@@ -483,11 +664,11 @@
         
         <div class="navbar">
             <div class="navbar-left">
-                <a href="#" onclick="showDashboardTab('offers')">Оферти</a>
-                <a href="#" onclick="showDashboardTab('policies')">Полици</a>
-                <a href="#" onclick="showDashboardTab('export')">Експорт</a>
+                <a href="#" onclick="showDashboardTab('offers')" id="offersNavLink" class="active">Оферти</a>
+                <a href="#" onclick="showDashboardTab('policies')" id="policiesNavLink">Полици</a>
+                <a href="#" onclick="showDashboardTab('export')" id="exportNavLink">Експорт</a>
                 <a href="#" onclick="showDashboardTab('users')" id="usersNavLink" style="display: none;">Потребители</a>
-                <a href="#" onclick="showDashboardTab('settings')">Настройки</a>
+                <a href="#" onclick="showDashboardTab('settings')" id="settingsNavLink">Настройки</a>
             </div>
             <div>
                 <button class="btn" onclick="showScreen('newOfferScreen')">+ Нова оферта</button>
@@ -496,14 +677,14 @@
 
         <div class="content">
             <!-- Раздел Оферти -->
-            <div id="offersTab" class="dashboard-tab">
+            <div id="offersTab" class="dashboard-tab" style="display: block;">
                 <div class="search-export-bar">
                     <div>
                         <h3 style="margin-bottom: 15px; color: #2c3e50;">Търсене на оферти</h3>
-                        <input type="text" class="form-control" placeholder="Номер на оферта или име на клиент" id="searchOffers">
+                        <input type="text" class="form-control" placeholder="Търси по номер, клиент или дестинация" id="searchOffers" onkeyup="searchOffers()" style="width: 100%;">
                     </div>
                     <div>
-                        <button class="btn" onclick="searchOffers()" style="width: 100%;">Търси</button>
+                        <button class="btn btn-secondary" onclick="clearOfferSearch()" style="width: 100%;">Изчисти търсенето</button>
                     </div>
                 </div>
 
@@ -517,11 +698,11 @@
                         <thead>
                             <tr>
                                 <th>Номер на оферта</th>
-                                <th>Клиент</th>
-                                <th>Дестинация</th>
-                                <th>Дати на пътуване</th>
-                                <th>Премия</th>
-                                <th>Застраховател</th>
+                                <th class="sortable" onclick="sortOffersBy('client')" id="clientHeader">Клиент</th>
+                                <th class="sortable" onclick="sortOffersBy('destination')" id="destinationHeader">Дестинация</th>
+                                <th class="sortable" onclick="sortOffersBy('dates')" id="datesHeader">Дати на пътуване</th>
+                                <th class="sortable" onclick="sortOffersBy('premium')" id="premiumHeader">Премия</th>
+                                <th class="sortable" onclick="sortOffersBy('company')" id="companyHeader">Застраховател</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
@@ -537,7 +718,7 @@
                                 <td><span class="badge badge-warning">Оферта</span></td>
                                 <td>
                                     <button class="btn btn-secondary" onclick="editOffer('OF-2025-001')">Редактирай</button>
-                                    <button class="btn btn-primary" onclick="createPolicyFromOffer('OF-2025-001')">Създай полица</button>
+                                    <button class="btn btn-primary" onclick="createPolicyFromOffer('OF-2025-001')">Издаване на полица</button>
                                     <button class="btn" onclick="viewOffer('OF-2025-001')">Преглед</button>
                                 </td>
                             </tr>
@@ -551,7 +732,7 @@
                                 <td><span class="badge badge-warning">Оферта</span></td>
                                 <td>
                                     <button class="btn btn-secondary" onclick="editOffer('OF-2025-002')">Редактирай</button>
-                                    <button class="btn btn-primary" onclick="createPolicyFromOffer('OF-2025-002')">Създай полица</button>
+                                    <button class="btn btn-primary" onclick="createPolicyFromOffer('OF-2025-002')">Издаване на полица</button>
                                     <button class="btn" onclick="viewOffer('OF-2025-002')">Преглед</button>
                                 </td>
                             </tr>
@@ -561,14 +742,14 @@
             </div>
 
             <!-- Раздел Полици -->
-            <div id="policiesTab" class="dashboard-tab" style="display: none;">
+            <div id="policiesTab" class="dashboard-tab">
                 <div class="search-export-bar">
                     <div>
                         <h3 style="margin-bottom: 15px; color: #2c3e50;">Търсене на полици</h3>
-                        <input type="text" class="form-control" placeholder="Номер на полица или име на клиент" id="searchPolicies">
+                        <input type="text" class="form-control" placeholder="Търси по номер, клиент или дестинация" id="searchPolicies" onkeyup="searchPolicies()" style="width: 100%;">
                     </div>
                     <div>
-                        <button class="btn" onclick="searchPolicies()" style="width: 100%;">Търси</button>
+                        <button class="btn btn-secondary" onclick="clearPolicySearch()" style="width: 100%;">Изчисти търсенето</button>
                     </div>
                 </div>
 
@@ -581,11 +762,11 @@
                         <thead>
                             <tr>
                                 <th>Номер на полица</th>
-                                <th>Клиент</th>
-                                <th>Дестинация</th>
-                                <th>Дати на пътуване</th>
-                                <th>Премия</th>
-                                <th>Застраховател</th>
+                                <th class="sortable" onclick="sortPoliciesBy('client')" id="policyClientHeader">Клиент</th>
+                                <th class="sortable" onclick="sortPoliciesBy('destination')" id="policyDestinationHeader">Дестинация</th>
+                                <th class="sortable" onclick="sortPoliciesBy('dates')" id="policyDatesHeader">Дати на пътуване</th>
+                                <th class="sortable" onclick="sortPoliciesBy('premium')" id="policyPremiumHeader">Премия</th>
+                                <th class="sortable" onclick="sortPoliciesBy('company')" id="policyCompanyHeader">Застраховател</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
@@ -610,7 +791,7 @@
             </div>
 
             <!-- Раздел Експорт -->
-            <div id="exportTab" class="dashboard-tab" style="display: none;">
+            <div id="exportTab" class="dashboard-tab">
                 <div class="table-container">
                     <div class="table-header">
                         <h3>Експорт на данни</h3>
@@ -657,7 +838,7 @@
             </div>
 
             <!-- Раздел Потребители -->
-            <div id="usersTab" class="dashboard-tab" style="display: none;">
+            <div id="usersTab" class="dashboard-tab">
                 <div class="table-container">
                     <div class="table-header">
                         <h3>Управление на потребители</h3>
@@ -687,42 +868,57 @@
                                     <button class="btn btn-danger" onclick="removeUser('user1')">Премахни</button>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>Мария Стоянова</td>
+                                <td>maria@travelxyz.com</td>
+                                <td><span class="badge badge-info">Потребител</span></td>
+                                <td><span class="badge badge-success">Активен</span></td>
+                                <td>23.06.2025 16:45</td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="editUser('user2')">Редактирай</button>
+                                    <button class="btn btn-danger" onclick="removeUser('user2')">Премахни</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Георги Петков</td>
+                                <td>georgi@travelxyz.com</td>
+                                <td><span class="badge badge-info">Потребител</span></td>
+                                <td><span class="badge badge-warning">Неактивен</span></td>
+                                <td>20.06.2025 09:15</td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="editUser('user3')">Редактирай</button>
+                                    <button class="btn btn-danger" onclick="removeUser('user3')">Премахни</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <!-- Раздел Настройки -->
-            <div id="settingsTab" class="dashboard-tab" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Информация за компанията</h3>
-                        </div>
-                        <div style="padding: 25px;">
-                            <div class="form-group">
-                                <label>Име на компанията</label>
-                                <input type="text" class="form-control" value="Туристическа агенция XYZ">
-                            </div>
-                            <div class="form-group">
-                                <label>Контактен имейл</label>
-                                <input type="email" class="form-control" value="contact@travelxyz.com">
-                            </div>
-                            <button class="btn">Запази промените</button>
-                        </div>
+            <div id="settingsTab" class="dashboard-tab">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Информация за компанията</h3>
                     </div>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Управление на потребители</h3>
+                    <div style="padding: 25px;">
+                        <div class="form-group">
+                            <label>Име на компанията</label>
+                            <input type="text" class="form-control" value="Туристическа агенция XYZ">
                         </div>
-                        <div style="padding: 25px;">
-                            <p>Текущи потребители: 3</p>
-                            <div style="margin-top: 20px;">
-                                <button class="btn" onclick="showDashboardTab('users')" style="width: 100%; margin-bottom: 10px;">Управлявай потребители</button>
-                                <button class="btn btn-secondary" style="width: 100%;">Настройки на разрешения</button>
-                            </div>
+                        <div class="form-group">
+                            <label>Контактен имейл</label>
+                            <input type="email" class="form-control" value="contact@travelxyz.com">
                         </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" class="form-control" value="+359 2 123 4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Адрес</label>
+                            <input type="text" class="form-control" value="ул. Витоша 15, София 1000">
+                        </div>
+                        <button class="btn">Запази промените</button>
                     </div>
                 </div>
             </div>
@@ -787,19 +983,32 @@
                     </select>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="departureDate">Дата на заминаване</label>
+                        <input type="date" id="departureDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="returnDate">Дата на завръщане</label>
+                        <input type="date" id="returnDate" class="form-control">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Пътуващи</label>
                     <div id="travelersContainer">
                         <div class="traveler-entry">
+                            <div class="traveler-number">1</div>
                             <div style="flex: 1;">
                                 <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #666;">Възраст</label>
                                 <input type="number" class="form-control" placeholder="Възраст" min="0" max="120" onchange="updateTravelersCount()">
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary" onclick="addTraveler()">+ Добави пътуващ</button>
-                    <div style="margin-top: 10px;">
-                        <small style="color: #666;">Общо пътуващи: <span id="travelersCount">1</span></small>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-top: 15px;">
+                        <button type="button" class="btn btn-secondary" onclick="addTraveler()">+ Добави пътуващ</button>
+                        <button type="button" class="btn btn-danger" onclick="removeLastTraveler()" id="removeLastBtn" style="display: none;">- Премахни последен</button>
+                        <small style="color: #666; margin-left: 10px;">Общо пътуващи: <span id="travelersCount">1</span></small>
                     </div>
                 </div>
 
@@ -848,6 +1057,10 @@
                         <div id="summaryAmount">-</div>
                     </div>
                     <div>
+                        <strong>Дати на пътуване:</strong>
+                        <div id="summaryDates">-</div>
+                    </div>
+                    <div>
                         <strong>Брой пътуващи:</strong>
                         <div id="summaryTravelers">-</div>
                     </div>
@@ -894,33 +1107,171 @@
     <div id="createPolicyModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="hideModal('createPolicyModal')">&times;</span>
-            <h3>Създай полица от оферта</h3>
+            <h3>Издаване на полица от оферта</h3>
             <p>Оферта номер: <strong id="offerNumber"></strong></p>
-            <div id="travelersContainer">
-                <!-- Динамично се генерира -->
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px; color: #2c3e50;">Детайли на офертата</h4>
+                <div id="offerDetails" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <!-- Offer details will be populated here -->
+                </div>
             </div>
+
+            <div class="form-group">
+                <label for="clientName">Име на клиента</label>
+                <input type="text" id="clientName" class="form-control" placeholder="Въведете пълното име на клиента">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="clientPhone">Телефон</label>
+                    <input type="tel" id="clientPhone" class="form-control" placeholder="+359...">
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">Имейл</label>
+                    <input type="email" id="clientEmail" class="form-control" placeholder="email@example.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="clientAddress">Адрес</label>
+                <input type="text" id="clientAddress" class="form-control" placeholder="Пълен адрес">
+            </div>
+
             <div style="margin-top: 20px; text-align: center;">
-                <button class="btn" onclick="finalizePolicy()">Създай полица</button>
+                <button class="btn" onclick="finalizePolicy()">Издай полица</button>
                 <button class="btn btn-secondary" onclick="hideModal('createPolicyModal')">Отказ</button>
             </div>
         </div>
     </div>
 
+    <!-- Offer Preview Modal -->
+    <div id="offerPreviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('offerPreviewModal')">&times;</span>
+            <h3>Преглед на оферта</h3>
+            <div id="offerPreviewContent">
+                <!-- Offer preview content will be populated here -->
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="btn btn-secondary" onclick="hideModal('offerPreviewModal')">Затвори</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Policy Preview Modal -->
+    <div id="policyPreviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('policyPreviewModal')">&times;</span>
+            <h3>Преглед на полица</h3>
+            <div id="policyPreviewContent">
+                <!-- Policy preview content will be populated here -->
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="btn btn-secondary" onclick="hideModal('policyPreviewModal')">Затвори</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Global variables
+        var currentUserRole = 'admin';
+        var currentOfferData = {};
+        
+        var countries = [
+            'Австрия', 'Австралия', 'Белгия', 'България', 'Великобритания', 'Германия', 'Гърция', 
+            'Дания', 'Египет', 'Испания', 'Италия', 'Кипър', 'Малта', 'Нидерландия', 'Норвегия',
+            'Полша', 'Португалия', 'Румъния', 'САЩ', 'Тайланд', 'Турция', 'Франция', 'Хърватия',
+            'Чехия', 'Швейцария', 'Швеция'
+        ];
+
+        var insuranceCompanies = [
+            { name: 'Euroins', logo: '🛡️', color: '#e74c3c' },
+            { name: 'Allianz', logo: '🔷', color: '#3498db' },
+            { name: 'Uniqa', logo: '🟦', color: '#9b59b6' },
+            { name: 'Lev Ins', logo: '🦁', color: '#f39c12' },
+            { name: 'Bulstrad', logo: '⭐', color: '#27ae60' }
+        ];
+
+        var offers = [
+            {
+                id: 'OF-2025-001',
+                client: 'Иван Петров',
+                destination: 'Мадрид, Испания',
+                dates: '15.07.2025 - 25.07.2025',
+                premium: '125 лв.',
+                company: 'Euroins',
+                travelersCount: 2,
+                status: 'offer'
+            },
+            {
+                id: 'OF-2025-002',
+                client: 'Мария Георгиева',
+                destination: 'Рим, Италия',
+                dates: '01.08.2025 - 14.08.2025',
+                premium: '185 лв.',
+                company: 'Allianz',
+                travelersCount: 1,
+                status: 'offer'
+            }
+        ];
+
+        var policies = [
+            {
+                id: 'TG-2025-001',
+                client: 'Георги Димитров',
+                destination: 'Париж, Франция',
+                dates: '10.09.2025 - 20.09.2025',
+                premium: '155 лв.',
+                company: 'Uniqa',
+                status: 'active'
+            }
+        ];
+
+        // Core functions
+        function showScreen(screenId) {
+            var screens = document.querySelectorAll('.screen');
+            for (var i = 0; i < screens.length; i++) {
+                screens[i].classList.remove('active');
+            }
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showDashboardTab(tabId) {
+            var tabs = document.querySelectorAll('.dashboard-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+            }
+            
+            var links = document.querySelectorAll('.navbar a');
+            for (var i = 0; i < links.length; i++) {
+                links[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabId + 'NavLink').classList.add('active');
+            document.getElementById(tabId + 'Tab').style.display = 'block';
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
         // Custom popup functions
-        function showCustomPopup(title, message, onConfirm, onCancel = null) {
+        function showCustomPopup(title, message, onConfirm, onCancel) {
             document.getElementById('popupTitle').textContent = title;
             document.getElementById('popupMessage').textContent = message;
             
-            const popup = document.getElementById('customPopup');
-            const confirmBtn = document.getElementById('popupConfirm');
-            const cancelBtn = document.getElementById('popupCancel');
+            var popup = document.getElementById('customPopup');
+            var confirmBtn = document.getElementById('popupConfirm');
+            var cancelBtn = document.getElementById('popupCancel');
             
-            // Clear previous event listeners
             confirmBtn.onclick = null;
             cancelBtn.onclick = null;
             
-            // Set new event listeners
             confirmBtn.onclick = function() {
                 hideCustomPopup();
                 if (onConfirm) onConfirm();
@@ -951,103 +1302,33 @@
             showCustomPopup(title, message, onConfirm, onCancel);
         }
 
-        // Global variables
-        let currentUserRole = 'admin';
-        let currentOfferData = {};
-        
-        let countries = [
-            'Австрия', 'Австралия', 'Белгия', 'България', 'Великобритания', 'Германия', 'Гърция', 
-            'Дания', 'Египет', 'Испания', 'Италия', 'Кипър', 'Малта', 'Нидерландия', 'Норвегия',
-            'Полша', 'Португалия', 'Румъния', 'САЩ', 'Тайланд', 'Турция', 'Франция', 'Хърватия',
-            'Чехия', 'Швейцария', 'Швеция'
-        ];
-
-        let insuranceCompanies = [
-            { name: 'Euroins', logo: '🛡️', color: '#e74c3c' },
-            { name: 'Allianz', logo: '🔷', color: '#3498db' },
-            { name: 'Uniqa', logo: '🟦', color: '#9b59b6' },
-            { name: 'Lev Ins', logo: '🦁', color: '#f39c12' },
-            { name: 'Bulstrad', logo: '⭐', color: '#27ae60' }
-        ];
-
-        let offers = [
-            {
-                id: 'OF-2025-001',
-                client: 'Иван Петров',
-                destination: 'Мадрид, Испания',
-                dates: '15.07.2025 - 25.07.2025',
-                premium: '125 лв.',
-                company: 'Euroins',
-                travelersCount: 2,
-                status: 'offer'
-            },
-            {
-                id: 'OF-2025-002',
-                client: 'Мария Георгиева',
-                destination: 'Рим, Италия',
-                dates: '01.08.2025 - 14.08.2025',
-                premium: '185 лв.',
-                company: 'Allianz',
-                travelersCount: 1,
-                status: 'offer'
-            }
-        ];
-
-        let policies = [
-            {
-                id: 'TG-2025-001',
-                client: 'Георги Димитров',
-                destination: 'Париж, Франция',
-                dates: '10.09.2025 - 20.09.2025',
-                premium: '155 лв.',
-                company: 'Uniqa',
-                status: 'active'
-            }
-        ];
-
-        // Core functions
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            document.getElementById(screenId).classList.add('active');
-        }
-
-        function showDashboardTab(tabId) {
-            document.querySelectorAll('.dashboard-tab').forEach(tab => {
-                tab.style.display = 'none';
-            });
-            document.getElementById(tabId + 'Tab').style.display = 'block';
-        }
-
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function hideModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
         // Country dropdown functions
         function showCountryDropdown() {
-            const dropdown = document.getElementById('countryDropdown');
+            var dropdown = document.getElementById('countryDropdown');
             dropdown.style.display = 'block';
             populateCountries();
         }
 
-        function populateCountries(filter = '') {
-            const dropdown = document.getElementById('countryDropdown');
-            const filteredCountries = countries.filter(country => 
-                country.toLowerCase().includes(filter.toLowerCase())
-            );
+        function populateCountries(filter) {
+            filter = filter || '';
+            var dropdown = document.getElementById('countryDropdown');
+            var filteredCountries = [];
+            
+            for (var i = 0; i < countries.length; i++) {
+                if (countries[i].toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
+                    filteredCountries.push(countries[i]);
+                }
+            }
 
-            dropdown.innerHTML = filteredCountries.map(country => 
-                `<div class="country-option" onclick="selectCountry('${country}')">${country}</div>`
-            ).join('');
+            var html = '';
+            for (var i = 0; i < filteredCountries.length; i++) {
+                html += '<div class="country-option" onclick="selectCountry(\'' + filteredCountries[i] + '\')">' + filteredCountries[i] + '</div>';
+            }
+            dropdown.innerHTML = html;
         }
 
         function filterCountries() {
-            const input = document.getElementById('travelDestination');
+            var input = document.getElementById('travelDestination');
             populateCountries(input.value);
         }
 
@@ -1058,59 +1339,80 @@
 
         // Traveler functions
         function addTraveler() {
-            const container = document.getElementById('travelersContainer');
-            const travelerDiv = document.createElement('div');
+            var container = document.getElementById('travelersContainer');
+            var count = container.children.length + 1;
+            var travelerDiv = document.createElement('div');
             travelerDiv.className = 'traveler-entry';
-            travelerDiv.innerHTML = `
-                <div style="flex: 1;">
-                    <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #666;">Възраст</label>
-                    <input type="number" class="form-control" placeholder="Възраст" min="0" max="120" onchange="updateTravelersCount()">
-                </div>
-                <button type="button" class="btn btn-danger" onclick="removeTraveler(this)">Премахни</button>
-            `;
+            travelerDiv.innerHTML = '<div class="traveler-number">' + count + '</div><div style="flex: 1;"><label style="display: block; margin-bottom: 5px; font-size: 14px; color: #666;">Възраст</label><input type="number" class="form-control" placeholder="Възраст" min="0" max="120" onchange="updateTravelersCount()"></div>';
             container.appendChild(travelerDiv);
             updateTravelersCount();
+            updateTravelerButtons();
         }
 
-        function removeTraveler(button) {
-            const container = document.getElementById('travelersContainer');
+        function removeLastTraveler() {
+            var container = document.getElementById('travelersContainer');
             if (container.children.length > 1) {
-                button.parentElement.remove();
+                container.removeChild(container.lastElementChild);
                 updateTravelersCount();
+                updateTravelerButtons();
+            }
+        }
+
+        function updateTravelerButtons() {
+            var container = document.getElementById('travelersContainer');
+            var removeBtn = document.getElementById('removeLastBtn');
+            
+            if (container.children.length > 1) {
+                removeBtn.style.display = 'inline-block';
             } else {
-                showAlert('Внимание', 'Трябва да има поне един пътуващ!');
+                removeBtn.style.display = 'none';
             }
         }
 
         function updateTravelersCount() {
-            const container = document.getElementById('travelersContainer');
-            const count = container.children.length;
+            var container = document.getElementById('travelersContainer');
+            var count = container.children.length;
             document.getElementById('travelersCount').textContent = count;
         }
 
         // Offer creation functions
         function proceedToOffers() {
-            const destination = document.getElementById('travelDestination').value;
-            const purpose = document.getElementById('travelPurpose').value;
-            const amount = document.getElementById('insuranceAmount').value;
-            const ageInputs = document.querySelectorAll('#travelersContainer input[type="number"]');
+            var destination = document.getElementById('travelDestination').value;
+            var purpose = document.getElementById('travelPurpose').value;
+            var amount = document.getElementById('insuranceAmount').value;
+            var departureDate = document.getElementById('departureDate').value;
+            var returnDate = document.getElementById('returnDate').value;
+            var ageInputs = document.querySelectorAll('#travelersContainer input[type="number"]');
             
-            if (!destination || !purpose || !amount) {
+            if (!destination || !purpose || !amount || !departureDate || !returnDate) {
                 showAlert('Грешка', 'Моля попълнете всички полета!');
                 return;
             }
 
-            const ages = Array.from(ageInputs).map(input => input.value).filter(age => age);
+            if (new Date(returnDate) <= new Date(departureDate)) {
+                showAlert('Грешка', 'Датата на завръщане трябва да е след датата на заминаване!');
+                return;
+            }
+
+            var ages = [];
+            for (var i = 0; i < ageInputs.length; i++) {
+                if (ageInputs[i].value) {
+                    ages.push(ageInputs[i].value);
+                }
+            }
+            
             if (ages.length !== ageInputs.length) {
                 showAlert('Грешка', 'Моля въведете възрастта на всички пътуващи!');
                 return;
             }
 
             currentOfferData = {
-                destination,
-                purpose,
-                amount,
-                ages,
+                destination: destination,
+                purpose: purpose,
+                amount: amount,
+                departureDate: departureDate,
+                returnDate: returnDate,
+                ages: ages,
                 travelersCount: ages.length
             };
 
@@ -1120,7 +1422,7 @@
         }
 
         function updateOfferSummary() {
-            const purposeMap = {
+            var purposeMap = {
                 'business': 'Бизнес',
                 'leisure': 'Туризъм/Почивка',
                 'study': 'Образование/Учеба',
@@ -1132,47 +1434,78 @@
             document.getElementById('summaryDestination').textContent = currentOfferData.destination;
             document.getElementById('summaryPurpose').textContent = purposeMap[currentOfferData.purpose];
             document.getElementById('summaryAmount').textContent = new Intl.NumberFormat('bg-BG').format(currentOfferData.amount) + ' евро';
+            document.getElementById('summaryDates').textContent = currentOfferData.departureDate + ' - ' + currentOfferData.returnDate;
             document.getElementById('summaryTravelers').textContent = currentOfferData.travelersCount + ' (' + currentOfferData.ages.join(', ') + ' г.)';
         }
 
         function generateInsuranceOffers() {
-            const container = document.getElementById('insuranceOffersContainer');
-            const basePrice = calculateBasePrice();
+            var container = document.getElementById('insuranceOffersContainer');
+            var basePrice = calculateBasePrice();
             
-            container.innerHTML = insuranceCompanies.map((company) => {
-                const price = Math.round(basePrice * (0.8 + Math.random() * 0.4));
-                const features = getCompanyFeatures(company.name);
+            var html = '';
+            for (var i = 0; i < insuranceCompanies.length; i++) {
+                var company = insuranceCompanies[i];
+                var price = Math.round(basePrice * (0.8 + Math.random() * 0.4));
+                var features = getCompanyFeatures(company.name);
+                var details = getCompanyDetails(company.name);
                 
-                return `
-                    <div style="border: 2px solid #e1e5e9; border-radius: 10px; padding: 20px; margin-bottom: 15px; cursor: pointer;" 
-                         onclick="selectInsuranceOffer('${company.name}', ${price})">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 24px;">${company.logo}</span>
-                                <h4 style="margin: 0; color: ${company.color};">${company.name}</h4>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 24px; font-weight: bold; color: ${company.color};">${price} лв.</div>
-                                <div style="font-size: 14px; color: #666;">за цялото пътуване</div>
-                            </div>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-                            ${features.map(feature => `<div style="color: #666; font-size: 14px;">✓ ${feature}</div>`).join('')}
-                        </div>
-                        <div style="margin-top: 15px; text-align: center;">
-                            <button class="btn" style="background: ${company.color};">Избери тази оферта</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                html += '<div class="insurance-offer-card" onclick="selectInsuranceOffer(\'' + company.name + '\', ' + price + ')">';
+                html += '<div class="company-header">';
+                html += '<div class="company-info">';
+                html += '<div class="company-logo" style="background: ' + company.color + '20;">';
+                html += '<span style="font-size: 32px;">' + company.logo + '</span>';
+                html += '</div>';
+                html += '<div>';
+                html += '<h4 style="margin: 0; color: ' + company.color + '; font-size: 20px;">' + company.name + '</h4>';
+                html += '<p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">' + details.description + '</p>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="price-info">';
+                html += '<div class="price-main" style="color: ' + company.color + ';">' + price + ' лв.</div>';
+                html += '<div class="price-subtitle">за цялото пътуване</div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="company-details">';
+                html += '<h5 style="margin-bottom: 15px; color: #2c3e50;">Подробности за покритието</h5>';
+                html += '<div class="details-grid">';
+                html += '<div class="detail-item"><span class="detail-label">Рейтинг:</span><span class="detail-value">' + details.rating + '/10</span></div>';
+                html += '<div class="detail-item"><span class="detail-label">Обработка на щети:</span><span class="detail-value">' + details.claimProcessing + '</span></div>';
+                html += '<div class="detail-item"><span class="detail-label">Телефон:</span><span class="detail-value">' + details.phone + '</span></div>';
+                html += '<div class="detail-item"><span class="detail-label">Покритие COVID-19:</span><span class="detail-value">' + details.covidCoverage + '</span></div>';
+                html += '</div>';
+                html += '</div>';
+
+                html += '<div class="features-grid">';
+                for (var j = 0; j < features.length; j++) {
+                    html += '<div class="feature-item">';
+                    html += '<span style="color: #4CAF50; font-weight: bold;">✓</span>';
+                    html += '<span>' + features[j] + '</span>';
+                    html += '</div>';
+                }
+                html += '</div>';
+
+                html += '<div class="company-actions">';
+                html += '<button class="btn" style="background: ' + company.color + '; padding: 12px 30px;">Избери тази оферта</button>';
+                html += '<a href="#" class="more-info-link" onclick="event.stopPropagation(); showCompanyInfo(\'' + company.name + '\')">Повече информация →</a>';
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
         }
 
         function calculateBasePrice() {
-            const amount = parseInt(currentOfferData.amount);
-            const travelersCount = currentOfferData.travelersCount;
-            const avgAge = currentOfferData.ages.reduce((sum, age) => sum + parseInt(age), 0) / currentOfferData.ages.length;
+            var amount = parseInt(currentOfferData.amount);
+            var travelersCount = currentOfferData.travelersCount;
+            var totalAge = 0;
             
-            let basePrice = amount * 0.002;
+            for (var i = 0; i < currentOfferData.ages.length; i++) {
+                totalAge += parseInt(currentOfferData.ages[i]);
+            }
+            var avgAge = totalAge / currentOfferData.ages.length;
+            
+            var basePrice = amount * 0.002;
             basePrice *= travelersCount;
             
             if (avgAge > 65) basePrice *= 1.5;
@@ -1182,31 +1515,84 @@
         }
 
         function getCompanyFeatures(companyName) {
-            const features = {
-                'Euroins': ['Медицински разходи', '24/7 асистентска линия', 'Покритие за багаж', 'Отмяна на пътуване'],
-                'Allianz': ['Световно покритие', 'Спортни дейности', 'Разширено медицинско покритие', 'Бърза обработка'],
-                'Uniqa': ['Гъвкави условия', 'Онлайн управление', 'Семейни отстъпки', 'Покритие за COVID-19'],
-                'Lev Ins': ['Конкурентни цени', 'Бърза обработка', 'Местна поддръжка', 'Опростена процедура'],
-                'Bulstrad': ['Традиционен застраховател', 'Широка мрежа партньори', 'Надеждно покритие', 'Дългогодишен опит']
+            var features = {
+                'Euroins': ['Медицински разходи до лимита', '24/7 асистентска линия', 'Покритие за багаж до 1000€', 'Отмяна на пътуване', 'Забавяне на полет', 'Спешна стоматология'],
+                'Allianz': ['Световно покритие', 'Спортни дейности', 'Разширено медицинско покритие', 'Бърза обработка на щети', 'Телемедицина', 'Покритие за бременност'],
+                'Uniqa': ['Гъвкави условия', 'Онлайн управление', 'Семейни отстъпки', 'Покритие за COVID-19', 'Хронични заболявания', 'Психологическа помощ'],
+                'Lev Ins': ['Конкурентни цени', 'Бърза обработка', 'Местна поддръжка на български', 'Опростена процедура', 'Онлайн подаване на щети', 'Без франшиза'],
+                'Bulstrad': ['Традиционен застраховател', 'Широка мрежа партньори', 'Надеждно покритие', 'Дългогодишен опит', 'Покритие за възрастни', 'Специални условия за деца']
             };
             return features[companyName] || [];
         }
 
+        function getCompanyDetails(companyName) {
+            var details = {
+                'Euroins': {
+                    description: 'Водещ застраховател в България',
+                    rating: '8.5',
+                    claimProcessing: '24-48 часа',
+                    phone: '+359 700 11 011',
+                    covidCoverage: 'Да'
+                },
+                'Allianz': {
+                    description: 'Международен лидер в застраховането',
+                    rating: '9.2',
+                    claimProcessing: '12-24 часа',
+                    phone: '+359 2 8166 166',
+                    covidCoverage: 'Да'
+                },
+                'Uniqa': {
+                    description: 'Австрийска застрахователна група',
+                    rating: '8.8',
+                    claimProcessing: '24-36 часа',
+                    phone: '+359 2 8165 555',
+                    covidCoverage: 'Да'
+                },
+                'Lev Ins': {
+                    description: 'Български застраховател с добри цени',
+                    rating: '7.9',
+                    claimProcessing: '48-72 часа',
+                    phone: '+359 2 9700 700',
+                    covidCoverage: 'Частично'
+                },
+                'Bulstrad': {
+                    description: 'Най-старият застраховател в България',
+                    rating: '8.1',
+                    claimProcessing: '36-48 часа',
+                    phone: '+359 2 8166 100',
+                    covidCoverage: 'Да'
+                }
+            };
+            return details[companyName] || {};
+        }
+
+        function showCompanyInfo(companyName) {
+            var details = getCompanyDetails(companyName);
+            var features = getCompanyFeatures(companyName);
+            
+            var message = details.description + '\n\nРейтинг: ' + details.rating + '/10\n';
+            message += 'Телефон: ' + details.phone + '\n';
+            message += 'Обработка на щети: ' + details.claimProcessing + '\n\n';
+            message += 'Основни покрития:\n• ' + features.join('\n• ');
+            
+            showAlert('Информация за ' + companyName, message);
+        }
+
         function selectInsuranceOffer(companyName, price) {
             showConfirm('Потвърдете избора', 
-                `Сигурни ли сте, че искате да изберете офертата от ${companyName} за ${price} лв.?`,
-                () => createOfferWithCompany(companyName, price),
+                'Сигурни ли сте, че искате да изберете офертата от ' + companyName + ' за ' + price + ' лв.?',
+                function() { createOfferWithCompany(companyName, price); },
                 null
             );
         }
 
         function createOfferWithCompany(companyName, price) {
-            const newOfferNumber = 'OF-2025-' + String(offers.length + 1).padStart(3, '0');
-            const newOffer = {
+            var newOfferNumber = 'OF-2025-' + String(offers.length + 1).padStart(3, '0');
+            var newOffer = {
                 id: newOfferNumber,
                 client: 'Нов клиент',
                 destination: currentOfferData.destination,
-                dates: 'Не е посочено',
+                dates: currentOfferData.departureDate + ' - ' + currentOfferData.returnDate,
                 premium: price + ' лв.',
                 company: companyName,
                 travelersCount: currentOfferData.travelersCount,
@@ -1216,127 +1602,127 @@
             offers.push(newOffer);
             updateOffersTable();
 
-            showAlert('Успех', `Офертата беше създадена успешно!\nНомер: ${newOfferNumber}\nЗастраховател: ${companyName}\nЦена: ${price} лв.`);
+            showAlert('Успешно', 'Офертата беше създадена успешно!\nНомер: ' + newOfferNumber + '\nЗастраховател: ' + companyName + '\nЦена: ' + price + ' лв.');
             
             currentOfferData = {};
             showScreen('dashboardScreen');
             showDashboardTab('offers');
         }
 
-        // Table update functions
         function updateOffersTable() {
-            const tbody = document.getElementById('offersTableBody');
+            var tbody = document.getElementById('offersTableBody');
             tbody.innerHTML = '';
 
-            offers.forEach(offer => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${offer.id}</td>
-                    <td>${offer.client}</td>
-                    <td>${offer.destination}</td>
-                    <td>${offer.dates}</td>
-                    <td>${offer.premium}</td>
-                    <td><span class="badge badge-info">${offer.company}</span></td>
-                    <td><span class="badge badge-warning">Оферта</span></td>
-                    <td>
-                        <button class="btn btn-secondary" onclick="editOffer('${offer.id}')">Редактирай</button>
-                        <button class="btn btn-primary" onclick="createPolicyFromOffer('${offer.id}')">Създай полица</button>
-                        <button class="btn" onclick="viewOffer('${offer.id}')">Преглед</button>
-                    </td>
-                `;
-            });
+            for (var i = 0; i < offers.length; i++) {
+                var offer = offers[i];
+                var row = tbody.insertRow();
+                row.innerHTML = '<td>' + offer.id + '</td>' +
+                               '<td>' + offer.client + '</td>' +
+                               '<td>' + offer.destination + '</td>' +
+                               '<td>' + offer.dates + '</td>' +
+                               '<td>' + offer.premium + '</td>' +
+                               '<td><span class="badge badge-info">' + offer.company + '</span></td>' +
+                               '<td><span class="badge badge-warning">Оферта</span></td>' +
+                               '<td>' +
+                               '<button class="btn btn-secondary" onclick="editOffer(\'' + offer.id + '\')">Редактирай</button>' +
+                               '<button class="btn btn-primary" onclick="createPolicyFromOffer(\'' + offer.id + '\')">Издаване на полица</button>' +
+                               '<button class="btn" onclick="viewOffer(\'' + offer.id + '\')">Преглед</button>' +
+                               '</td>';
+            }
         }
 
-        function updatePoliciesTable() {
-            const tbody = document.getElementById('policiesTableBody');
-            tbody.innerHTML = '';
-
-            policies.forEach(policy => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${policy.id}</td>
-                    <td>${policy.client}</td>
-                    <td>${policy.destination}</td>
-                    <td>${policy.dates}</td>
-                    <td>${policy.premium}</td>
-                    <td><span class="badge badge-info">${policy.company}</span></td>
-                    <td><span class="badge badge-success">Активна</span></td>
-                    <td>
-                        <button class="btn btn-secondary" onclick="editPolicy('${policy.id}')">Редактирай</button>
-                        <button class="btn btn-primary" onclick="viewPolicy('${policy.id}')">Преглед</button>
-                    </td>
-                `;
-            });
+        function editOffer(offerId) {
+            showAlert('Функция', 'Редактиране на оферта: ' + offerId);
         }
 
-        // Search functions
-        function searchOffers() {
-            const searchTerm = document.getElementById('searchOffers').value.toLowerCase();
-            const tbody = document.getElementById('offersTableBody');
-            const rows = tbody.getElementsByTagName('tr');
-
-            Array.from(rows).forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
+        function viewOffer(offerId) {
+            showAlert('Функция', 'Преглед на оферта: ' + offerId);
         }
 
-        function searchPolicies() {
-            const searchTerm = document.getElementById('searchPolicies').value.toLowerCase();
-            const tbody = document.getElementById('policiesTableBody');
-            const rows = tbody.getElementsByTagName('tr');
-
-            Array.from(rows).forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        }
-
-        // User management functions
-        function addNewUser() {
-            const name = document.getElementById('newUserName').value;
-            const email = document.getElementById('newUserEmail').value;
+        // Policy creation from offers
+        function createPolicyFromOffer(offerId) {
+            var offer = null;
+            for (var i = 0; i < offers.length; i++) {
+                if (offers[i].id === offerId) {
+                    offer = offers[i];
+                    break;
+                }
+            }
             
-            if (!name || !email) {
-                showAlert('Грешка', 'Моля попълнете всички полета!');
+            if (!offer) {
+                showAlert('Грешка', 'Офертата не е намерена!');
                 return;
             }
 
-            showAlert('Успех', 'Поканата е изпратена успешно на ' + email);
-            hideModal('addUserModal');
-            
-            document.getElementById('newUserName').value = '';
-            document.getElementById('newUserEmail').value = '';
-        }
-
-        // Policy creation functions
-        function createPolicyFromOffer(offerId) {
-            const offer = offers.find(o => o.id === offerId);
-            if (!offer) return;
-
+            // Populate offer details in modal
             document.getElementById('offerNumber').textContent = offerId;
+            
+            var detailsHtml = '';
+            detailsHtml += '<div><strong>Клиент:</strong><br>' + offer.client + '</div>';
+            detailsHtml += '<div><strong>Дестинация:</strong><br>' + offer.destination + '</div>';
+            detailsHtml += '<div><strong>Дати:</strong><br>' + offer.dates + '</div>';
+            detailsHtml += '<div><strong>Премия:</strong><br>' + offer.premium + '</div>';
+            detailsHtml += '<div><strong>Застраховател:</strong><br>' + offer.company + '</div>';
+            detailsHtml += '<div><strong>Пътуващи:</strong><br>' + offer.travelersCount + ' души</div>';
+            
+            document.getElementById('offerDetails').innerHTML = detailsHtml;
+            
+            // Pre-fill client name if it's not "Нов клиент"
+            if (offer.client !== 'Нов клиент') {
+                document.getElementById('clientName').value = offer.client;
+            } else {
+                document.getElementById('clientName').value = '';
+            }
+            
+            // Clear other fields
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientAddress').value = '';
+
             showModal('createPolicyModal');
         }
 
         function finalizePolicy() {
-            const offerId = document.getElementById('offerNumber').textContent;
-            const offer = offers.find(o => o.id === offerId);
+            var offerId = document.getElementById('offerNumber').textContent;
+            var clientName = document.getElementById('clientName').value.trim();
+            var clientPhone = document.getElementById('clientPhone').value.trim();
+            var clientEmail = document.getElementById('clientEmail').value.trim();
+            var clientAddress = document.getElementById('clientAddress').value.trim();
+            
+            if (!clientName || !clientPhone || !clientEmail || !clientAddress) {
+                showAlert('Грешка', 'Моля попълнете всички полета за клиента!');
+                return;
+            }
+            
+            var offer = null;
+            var offerIndex = -1;
+            
+            for (var i = 0; i < offers.length; i++) {
+                if (offers[i].id === offerId) {
+                    offer = offers[i];
+                    offerIndex = i;
+                    break;
+                }
+            }
             
             if (offer) {
-                const newPolicyNumber = 'TG-2025-' + String(policies.length + 1).padStart(3, '0');
-                const newPolicy = {
+                var newPolicyNumber = 'TG-2025-' + String(policies.length + 1).padStart(3, '0');
+                var newPolicy = {
                     id: newPolicyNumber,
-                    client: offer.client,
+                    client: clientName,
                     destination: offer.destination,
                     dates: offer.dates,
                     premium: offer.premium,
                     company: offer.company,
+                    phone: clientPhone,
+                    email: clientEmail,
+                    address: clientAddress,
+                    travelersCount: offer.travelersCount,
                     status: 'active'
                 };
 
                 policies.push(newPolicy);
                 
-                const offerIndex = offers.findIndex(o => o.id === offerId);
                 if (offerIndex > -1) {
                     offers.splice(offerIndex, 1);
                 }
@@ -1344,34 +1730,135 @@
                 updateOffersTable();
                 updatePoliciesTable();
 
-                showAlert('Успех', 'Полицата беше създадена успешно! Номер на полица: ' + newPolicyNumber);
                 hideModal('createPolicyModal');
+                
+                // Show success popup with preview button
+                showCustomPopup('Успешно', 'Полицата беше издадена успешно!\nНомер на полица: ' + newPolicyNumber, 
+                    function() { viewPolicy(newPolicyNumber); }, null);
+                
                 showDashboardTab('policies');
             }
         }
 
-        // Export function
+        // Preview functions
+        function viewOffer(offerId) {
+            var offer = null;
+            for (var i = 0; i < offers.length; i++) {
+                if (offers[i].id === offerId) {
+                    offer = offers[i];
+                    break;
+                }
+            }
+            
+            if (!offer) {
+                showAlert('Грешка', 'Офертата не е намерена!');
+                return;
+            }
+
+            var previewHtml = '';
+            previewHtml += '<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">';
+            previewHtml += '<h4 style="color: #4CAF50; margin-bottom: 15px;">Оферта ' + offer.id + '</h4>';
+            previewHtml += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+            previewHtml += '<div><strong>Клиент:</strong><br>' + offer.client + '</div>';
+            previewHtml += '<div><strong>Дестинация:</strong><br>' + offer.destination + '</div>';
+            previewHtml += '<div><strong>Период на пътуване:</strong><br>' + offer.dates + '</div>';
+            previewHtml += '<div><strong>Застраховател:</strong><br>' + offer.company + '</div>';
+            previewHtml += '<div><strong>Премия:</strong><br><span style="font-size: 18px; color: #4CAF50; font-weight: bold;">' + offer.premium + '</span></div>';
+            previewHtml += '<div><strong>Брой пътуващи:</strong><br>' + offer.travelersCount + ' души</div>';
+            previewHtml += '</div>';
+            previewHtml += '</div>';
+            
+            previewHtml += '<div style="background: #e8f5e8; padding: 15px; border-radius: 8px; border-left: 4px solid #4CAF50;">';
+            previewHtml += '<strong>Статус:</strong> Активна оферта<br>';
+            previewHtml += '<small style="color: #666;">Офертата е валидна и може да бъде издадена като полица</small>';
+            previewHtml += '</div>';
+
+            document.getElementById('offerPreviewContent').innerHTML = previewHtml;
+            showModal('offerPreviewModal');
+        }
+
+        function viewPolicy(policyId) {
+            var policy = null;
+            for (var i = 0; i < policies.length; i++) {
+                if (policies[i].id === policyId) {
+                    policy = policies[i];
+                    break;
+                }
+            }
+            
+            if (!policy) {
+                showAlert('Грешка', 'Полицата не е намерена!');
+                return;
+            }
+
+            var previewHtml = '';
+            previewHtml += '<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">';
+            previewHtml += '<h4 style="color: #007bff; margin-bottom: 15px;">Полица ' + policy.id + '</h4>';
+            previewHtml += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+            previewHtml += '<div><strong>Клиент:</strong><br>' + policy.client + '</div>';
+            previewHtml += '<div><strong>Дестинация:</strong><br>' + policy.destination + '</div>';
+            previewHtml += '<div><strong>Период на пътуване:</strong><br>' + policy.dates + '</div>';
+            previewHtml += '<div><strong>Застраховател:</strong><br>' + policy.company + '</div>';
+            previewHtml += '<div><strong>Премия:</strong><br><span style="font-size: 18px; color: #007bff; font-weight: bold;">' + policy.premium + '</span></div>';
+            previewHtml += '<div><strong>Брой пътуващи:</strong><br>' + policy.travelersCount + ' души</div>';
+            previewHtml += '</div>';
+            
+            if (policy.phone) {
+                previewHtml += '<hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">';
+                previewHtml += '<h5 style="margin-bottom: 15px;">Данни за клиента</h5>';
+                previewHtml += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+                previewHtml += '<div><strong>Телефон:</strong><br>' + policy.phone + '</div>';
+                previewHtml += '<div><strong>Имейл:</strong><br>' + policy.email + '</div>';
+                previewHtml += '<div style="grid-column: 1 / -1;"><strong>Адрес:</strong><br>' + policy.address + '</div>';
+                previewHtml += '</div>';
+            }
+            
+            previewHtml += '</div>';
+            
+            previewHtml += '<div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #007bff;">';
+            previewHtml += '<strong>Статус:</strong> Активна полица<br>';
+            previewHtml += '<small style="color: #666;">Полицата е издадена и валидна за периода на пътуването</small>';
+            previewHtml += '</div>';
+
+            document.getElementById('policyPreviewContent').innerHTML = previewHtml;
+            showModal('policyPreviewModal');
+        }
+
+        function updatePoliciesTable() {
+            var tbody = document.getElementById('policiesTableBody');
+            tbody.innerHTML = '';
+
+            for (var i = 0; i < policies.length; i++) {
+                var policy = policies[i];
+                var row = tbody.insertRow();
+                row.innerHTML = '<td>' + policy.id + '</td>' +
+                               '<td>' + policy.client + '</td>' +
+                               '<td>' + policy.destination + '</td>' +
+                               '<td>' + policy.dates + '</td>' +
+                               '<td>' + policy.premium + '</td>' +
+                               '<td><span class="badge badge-info">' + policy.company + '</span></td>' +
+                               '<td><span class="badge badge-success">Активна</span></td>' +
+                               '<td>' +
+                               '<button class="btn btn-secondary" onclick="editPolicy(\'' + policy.id + '\')">Редактирай</button>' +
+                               '<button class="btn btn-primary" onclick="viewPolicy(\'' + policy.id + '\')">Преглед</button>' +
+                               '</td>';
+            }
+        }
+
+        // Export functionality
         function performExport() {
-            const exportType = document.getElementById('exportType').value;
-            const fromDate = document.getElementById('exportFromDate').value;
-            const toDate = document.getElementById('exportToDate').value;
-            const format = document.getElementById('exportFormat').value;
+            var exportType = document.getElementById('exportType').value;
+            var fromDate = document.getElementById('exportFromDate').value;
+            var toDate = document.getElementById('exportToDate').value;
+            var format = document.getElementById('exportFormat').value;
 
             if (!fromDate || !toDate) {
                 showAlert('Грешка', 'Моля изберете период за експорт!');
                 return;
             }
 
-            showAlert('Експорт', `Експортиране на ${exportType} от ${fromDate} до ${toDate} във формат ${format}...`);
-        }
-
-        // Placeholder functions
-        function editOffer(offerId) {
-            showAlert('Функция', 'Редактиране на оферта: ' + offerId);
-        }
-
-        function viewOffer(offerId) {
-            showAlert('Функция', 'Преглед на оферта: ' + offerId);
+            var message = 'Експортиране на ' + exportType + ' от ' + fromDate + ' до ' + toDate + ' във формат ' + format + '...';
+            showAlert('Експорт', message);
         }
 
         function editPolicy(policyId) {
@@ -1382,6 +1869,311 @@
             showAlert('Функция', 'Преглед на полица: ' + policyId);
         }
 
+        // Global variables for sorting
+        var currentOfferSort = { column: null, direction: null };
+        var currentPolicySort = { column: null, direction: null };
+
+        // New sorting functions for offers
+        function sortOffersBy(column) {
+            // Toggle sort direction
+            if (currentOfferSort.column === column) {
+                currentOfferSort.direction = currentOfferSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentOfferSort.column = column;
+                currentOfferSort.direction = 'asc';
+            }
+
+            // Update header styles
+            var headers = document.querySelectorAll('#offersTab .sortable');
+            for (var i = 0; i < headers.length; i++) {
+                headers[i].classList.remove('sort-asc', 'sort-desc');
+            }
+            
+            var currentHeader = document.getElementById(column + 'Header');
+            currentHeader.classList.add('sort-' + currentOfferSort.direction);
+
+            // Sort the table
+            var tbody = document.getElementById('offersTableBody');
+            var rows = [];
+            var tbodyRows = tbody.getElementsByTagName('tr');
+            
+            for (var i = 0; i < tbodyRows.length; i++) {
+                rows.push(tbodyRows[i]);
+            }
+
+            rows.sort(function(a, b) {
+                var aVal, bVal;
+                switch(column) {
+                    case 'client':
+                        aVal = a.cells[1].textContent.trim();
+                        bVal = b.cells[1].textContent.trim();
+                        break;
+                    case 'destination':
+                        aVal = a.cells[2].textContent.trim();
+                        bVal = b.cells[2].textContent.trim();
+                        break;
+                    case 'dates':
+                        aVal = a.cells[3].textContent.trim();
+                        bVal = b.cells[3].textContent.trim();
+                        break;
+                    case 'premium':
+                        aVal = parseFloat(a.cells[4].textContent.replace(/[^\d.]/g, ''));
+                        bVal = parseFloat(b.cells[4].textContent.replace(/[^\d.]/g, ''));
+                        break;
+                    case 'company':
+                        aVal = a.cells[5].textContent.trim();
+                        bVal = b.cells[5].textContent.trim();
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                var result;
+                if (typeof aVal === 'number') {
+                    result = aVal - bVal;
+                } else {
+                    result = aVal.localeCompare(bVal);
+                }
+                
+                return currentOfferSort.direction === 'desc' ? -result : result;
+            });
+
+            tbody.innerHTML = '';
+            for (var i = 0; i < rows.length; i++) {
+                tbody.appendChild(rows[i]);
+            }
+        }
+
+        // New sorting functions for policies
+        function sortPoliciesBy(column) {
+            // Toggle sort direction
+            if (currentPolicySort.column === column) {
+                currentPolicySort.direction = currentPolicySort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentPolicySort.column = column;
+                currentPolicySort.direction = 'asc';
+            }
+
+            // Update header styles
+            var headers = document.querySelectorAll('#policiesTab .sortable');
+            for (var i = 0; i < headers.length; i++) {
+                headers[i].classList.remove('sort-asc', 'sort-desc');
+            }
+            
+            var currentHeader = document.getElementById('policy' + column.charAt(0).toUpperCase() + column.slice(1) + 'Header');
+            currentHeader.classList.add('sort-' + currentPolicySort.direction);
+
+            // Sort the table
+            var tbody = document.getElementById('policiesTableBody');
+            var rows = [];
+            var tbodyRows = tbody.getElementsByTagName('tr');
+            
+            for (var i = 0; i < tbodyRows.length; i++) {
+                rows.push(tbodyRows[i]);
+            }
+
+            rows.sort(function(a, b) {
+                var aVal, bVal;
+                switch(column) {
+                    case 'client':
+                        aVal = a.cells[1].textContent.trim();
+                        bVal = b.cells[1].textContent.trim();
+                        break;
+                    case 'destination':
+                        aVal = a.cells[2].textContent.trim();
+                        bVal = b.cells[2].textContent.trim();
+                        break;
+                    case 'dates':
+                        aVal = a.cells[3].textContent.trim();
+                        bVal = b.cells[3].textContent.trim();
+                        break;
+                    case 'premium':
+                        aVal = parseFloat(a.cells[4].textContent.replace(/[^\d.]/g, ''));
+                        bVal = parseFloat(b.cells[4].textContent.replace(/[^\d.]/g, ''));
+                        break;
+                    case 'company':
+                        aVal = a.cells[5].textContent.trim();
+                        bVal = b.cells[5].textContent.trim();
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                var result;
+                if (typeof aVal === 'number') {
+                    result = aVal - bVal;
+                } else {
+                    result = aVal.localeCompare(bVal);
+                }
+                
+                return currentPolicySort.direction === 'desc' ? -result : result;
+            });
+
+            tbody.innerHTML = '';
+            for (var i = 0; i < rows.length; i++) {
+                tbody.appendChild(rows[i]);
+            }
+        }
+
+        // Updated search functions
+        function searchOffers() {
+            var searchTerm = document.getElementById('searchOffers').value.toLowerCase();
+            var tbody = document.getElementById('offersTableBody');
+            var rows = tbody.getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var text = row.textContent.toLowerCase();
+                row.style.display = text.indexOf(searchTerm) !== -1 ? '' : 'none';
+            }
+        }
+
+        function searchPolicies() {
+            var searchTerm = document.getElementById('searchPolicies').value.toLowerCase();
+            var tbody = document.getElementById('policiesTableBody');
+            var rows = tbody.getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var text = row.textContent.toLowerCase();
+                row.style.display = text.indexOf(searchTerm) !== -1 ? '' : 'none';
+            }
+        }
+
+        // Remove the old clearOfferSorting and clearPolicySorting functions since we removed the buttons
+        function clearOfferSearch() {
+            document.getElementById('searchOffers').value = '';
+            searchOffers(); // Re-run search to show all items
+        }
+
+        function clearPolicySearch() {
+            document.getElementById('searchPolicies').value = '';
+            searchPolicies(); // Re-run search to show all items
+        }
+
+        // Keep the old function for backwards compatibility
+        function clearOfferFilters() {
+            clearOfferSearch();
+        }
+
+        function clearPolicyFilters() {
+            clearPolicySearch();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchOffers').value = '';
+            document.getElementById('sortOffers').value = '';
+            document.getElementById('filterCompany').value = '';
+        }
+
+        function searchPolicies() {
+            var searchTerm = document.getElementById('searchPolicies').value.toLowerCase();
+            var companyFilter = document.getElementById('filterPolicyCompany').value;
+            var tbody = document.getElementById('policiesTableBody');
+            var rows = tbody.getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var text = row.textContent.toLowerCase();
+                var companyCell = row.cells[5].textContent;
+                
+                var matchesSearch = text.indexOf(searchTerm) !== -1;
+                var matchesCompany = !companyFilter || companyCell.indexOf(companyFilter) !== -1;
+                
+                row.style.display = (matchesSearch && matchesCompany) ? '' : 'none';
+            }
+        }
+
+        function sortPolicies() {
+            var sortBy = document.getElementById('sortPolicies').value;
+            if (!sortBy) return;
+
+            var tbody = document.getElementById('policiesTableBody');
+            var rows = [];
+            var tbodyRows = tbody.getElementsByTagName('tr');
+            
+            for (var i = 0; i < tbodyRows.length; i++) {
+                rows.push(tbodyRows[i]);
+            }
+
+            rows.sort(function(a, b) {
+                var aVal, bVal;
+                switch(sortBy) {
+                    case 'client':
+                        aVal = a.cells[1].textContent;
+                        bVal = b.cells[1].textContent;
+                        break;
+                    case 'destination':
+                        aVal = a.cells[2].textContent;
+                        bVal = b.cells[2].textContent;
+                        break;
+                    case 'premium':
+                        aVal = parseFloat(a.cells[4].textContent.replace(/[^\d.]/g, ''));
+                        bVal = parseFloat(b.cells[4].textContent.replace(/[^\d.]/g, ''));
+                        break;
+                    case 'company':
+                        aVal = a.cells[5].textContent;
+                        bVal = b.cells[5].textContent;
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                if (typeof aVal === 'number') {
+                    return bVal - aVal;
+                }
+                return aVal.localeCompare(bVal);
+            });
+
+            tbody.innerHTML = '';
+            for (var i = 0; i < rows.length; i++) {
+                tbody.appendChild(rows[i]);
+            }
+        }
+
+        function filterPolicies() {
+            searchPolicies();
+        }
+
+        // User management functions
+        function addNewUser() {
+            var name = document.getElementById('newUserName').value;
+            var email = document.getElementById('newUserEmail').value;
+            
+            if (!name || !email) {
+                showAlert('Грешка', 'Моля попълнете всички полета!');
+                return;
+            }
+
+            showAlert('Успешно', 'Поканата е изпратена успешно на ' + email);
+            hideModal('addUserModal');
+            
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserEmail').value = '';
+        }
+
+        function clearPolicyFilters() {
+            document.getElementById('searchPolicies').value = '';
+            document.getElementById('sortPolicies').value = '';
+            document.getElementById('filterPolicyCompany').value = '';
+        }
+
+        function addNewUser() {
+            var name = document.getElementById('newUserName').value;
+            var email = document.getElementById('newUserEmail').value;
+            
+            if (!name || !email) {
+                showAlert('Грешка', 'Моля попълнете всички полета!');
+                return;
+            }
+
+            showAlert('Успешно', 'Поканата е изпратена успешно на ' + email);
+            hideModal('addUserModal');
+            
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserEmail').value = '';
+        }
+
         function editUser(userId) {
             showAlert('Функция', 'Редактиране на потребител: ' + userId);
         }
@@ -1390,25 +2182,27 @@
             showAlert('Функция', 'Премахване на потребител: ' + userId);
         }
 
+        function finalizePolicy() {
+            showAlert('Функция', 'Създаването на полици ще бъде добавено скоро...');
+        }
+
         // Initialization
         document.addEventListener('DOMContentLoaded', function() {
-            showDashboardTab('offers');
-            
             if (currentUserRole === 'admin') {
                 document.getElementById('usersNavLink').style.display = 'block';
             }
+            updateTravelerButtons();
         });
 
-        // Hide dropdown when clicking outside
+        // Event listeners
         document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('countryDropdown');
-            const input = document.getElementById('travelDestination');
+            var dropdown = document.getElementById('countryDropdown');
+            var input = document.getElementById('travelDestination');
             if (dropdown && input && !dropdown.contains(event.target) && event.target !== input) {
                 dropdown.style.display = 'none';
             }
         });
 
-        // Close modals when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
