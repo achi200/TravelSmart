@@ -616,7 +616,7 @@
                 </div>
                 <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('dashboardScreen')">Влез</button>
                 <button type="button" class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('signupScreen')">Създай профил</button>
-                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="showScreen('dashboardScreen')">Брокер вход</button>
+                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="brokerLogin()">Брокер вход</button>
             </form>
         </div>
     </div>
@@ -651,6 +651,40 @@
             </form>
         </div>
     </div>
+
+        <!-- Broker / Master-Admin Screen -->
+    <div id="brokerScreen" class="screen">
+      <div class="login-form">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">
+          Вход Брокер / Админ
+        </h2>
+        <div>
+          <h4 style="margin-bottom: 20px;">Управление на агенции</h4>
+          <ul id="agenciesList" style="list-style: none; padding: 0; margin-bottom: 20px;">
+            <!-- JS will inject each agency here -->
+          </ul>
+          <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+            <input
+              type="text"
+              id="newAgencyName"
+              class="form-control"
+              placeholder="Име на нова агенция"
+              style="flex:1;"
+            >
+            <button class="btn" onclick="addAgency()">Добави</button>
+          </div>
+          <button
+            type="button"
+            class="btn"
+            style="width: 100%; margin-bottom: 15px;"
+            onclick="showScreen('loginScreen')"
+          >
+            Изход
+          </button>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Табло на агенцията -->
     <div id="dashboardScreen" class="screen">
@@ -2211,6 +2245,96 @@
                 hideCustomPopup();
             }
         };
+        // === Broker / Master-admin functionality ===
+
+// 1) Master credentials (choose your own secure password!)
+var masterUser = { email: 'master@travelxyz.com', password: 'YOUR_MASTER_PASSWORD' };
+
+// 2) In-memory list of agencies (initialize from your real data if you have it)
+var agencies = [
+  { name: 'Туристическа агенция XYZ', email:'xyz@travelxyz.com', password:'xyzpass' }
+];
+
+// 3) Entry point for broker login
+function brokerLogin() {
+  var email = prompt('Email:'), pass = prompt('Password:');
+  if (email === masterUser.email && pass === masterUser.password) {
+    // master-admin mode
+    currentUserRole = 'master';
+    showBrokerScreen();
+  } else {
+    // try agency login
+    var agency = agencies.find(a => a.email === email && a.password === pass);
+    if (agency) {
+      currentUserRole = 'agency';
+      currentAgency = agency;
+      showScreen('dashboardScreen');
+      updateDashboardForAgency();
+    } else {
+      showAlert('Грешка', 'Невалидни данни!');
+    }
+  }
+}
+
+// 4) Show the broker-admin screen and render the list
+function showBrokerScreen() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('brokerScreen').classList.add('active');
+  renderAgencies();
+}
+
+// 5) Populate the UL with agencies
+function renderAgencies() {
+  var ul = document.getElementById('agenciesList');
+  ul.innerHTML = '';
+  agencies.forEach((a,i) => {
+    var li = document.createElement('li');
+    li.innerHTML = `
+      ${a.name}
+      <button class="btn btn-primary" onclick="loginAgency(${i})">Login</button>
+      <button class="btn btn-danger" onclick="removeAgency(${i})">Remove</button>
+    `;
+    ul.appendChild(li);
+  });
+}
+
+// 6) Add / remove agencies
+function addAgency() {
+  var name = document.getElementById('newAgencyName').value.trim();
+  if (!name) return showAlert('Грешка','Въведете име!');
+  var email = prompt('Email for this agency:');
+  var pass = prompt('Password for this agency:');
+  agencies.push({ name, email, password: pass });
+  renderAgencies();
+}
+function removeAgency(idx) {
+  if (confirm('Сигурни ли сте?')) {
+    agencies.splice(idx,1);
+    renderAgencies();
+  }
+}
+
+// 7) Login _into_ a specific agency
+function loginAgency(idx) {
+  currentUserRole = 'agency';
+  currentAgency = agencies[idx];
+  showScreen('dashboardScreen');
+  updateDashboardForAgency();
+}
+
+// 8) After agency login, adjust the dashboard header
+function updateDashboardForAgency() {
+  // change welcome text
+  document.querySelector('#dashboardScreen .user-info span')
+    .textContent = 'Добре дошли, ' + currentAgency.name;
+  // ensure all normal tabs are visible
+  document.getElementById('usersNavLink').style.display = 'none';
+  // (optional) lock down features based on role
+}
+
+// === end broker / master-admin additions ===
     </script>
 </body>
 </html>
+
+
