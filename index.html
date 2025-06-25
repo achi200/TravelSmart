@@ -616,11 +616,29 @@
                 </div>
                 <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('dashboardScreen')">Влез</button>
                 <button type="button" class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;" onclick="showScreen('signupScreen')">Създай профил</button>
-                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="brokerLogin()">Брокер вход</button>
+                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="showScreen('brokerLoginScreen')">Брокер вход</button>
             </form>
         </div>
     </div>
 
+    <!-- Брокер Вход -->
+    <div id="brokerLoginScreen" class="screen">
+        <div class="login-form">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">Брокер Вход</h2>
+            <form onsubmit="return false;">
+                <div class="form-group">
+                    <label for="brokerEmail">Имейл</label>
+                    <input type="email" id="brokerEmail" class="form-control" placeholder="Имейл">
+                </div>
+                <div class="form-group">
+                    <label for="brokerPassword">Парола</label>
+                    <input type="password" id="brokerPassword" class="form-control" placeholder="Парола">
+                </div>
+                <button type="button" class="btn" style="width: 100%; margin-bottom: 15px;" onclick="brokerLogin()">Влез</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%;" onclick="showScreen('loginScreen')">Назад</button>
+            </form>
+        </div>
+    </div>
     <!-- Регистрация -->
     <div id="signupScreen" class="screen">
         <div class="login-form">
@@ -660,6 +678,7 @@
         </h2>
         <div>
           <h4 style="margin-bottom: 20px;">Управление на агенции</h4>
+        <input type="text" id="agencySearch" class="form-control" placeholder="Търси агенция..." onkeyup="renderAgencies()" style="margin-bottom: 15px;">
           <ul id="agenciesList" style="list-style: none; padding: 0; margin-bottom: 20px;">
             <!-- JS will inject each agency here -->
           </ul>
@@ -2257,8 +2276,15 @@ var agencies = [
 
 // 3) Entry point for broker login
 function brokerLogin() {
-  // Auto-login straight to broker/admin view:
-  showBrokerScreen();
+  var email = document.getElementById('brokerEmail').value.trim();
+  var pass = document.getElementById('brokerPassword').value.trim();
+  if (email === masterUser.email && pass === masterUser.password) {
+    document.getElementById('brokerEmail').value = '';
+    document.getElementById('brokerPassword').value = '';
+    showBrokerScreen();
+  } else {
+    showAlert('Грешка','Невалидни брокерски данни!');
+  }
 }
 
 
@@ -2273,15 +2299,31 @@ function showBrokerScreen() {
 function renderAgencies() {
   var ul = document.getElementById('agenciesList');
   ul.innerHTML = '';
+  var q = document.getElementById('agencySearch').value.toLowerCase();
   agencies.forEach((a,i) => {
-    var li = document.createElement('li');
-    li.innerHTML = `
-      ${a.name}
-      <button class="btn btn-primary" onclick="loginAgency(${i})">Login</button>
-      <button class="btn btn-danger" onclick="removeAgency(${i})">Remove</button>
-    `;
-    ul.appendChild(li);
+    if (!q || a.name.toLowerCase().includes(q)) {
+      var li = document.createElement('li');
+      li.innerHTML = `
+        ${a.name}
+        <button class="btn btn-primary" onclick="loginAgency(${i})">Login</button>
+        <button class="btn btn-secondary" onclick="editAgency(${i})">Edit</button>
+        <button class="btn btn-danger" onclick="removeAgency(${i})">Remove</button>
+      `;
+      ul.appendChild(li);
+    }
   });
+}
+
+function editAgency(idx) {
+  var ag = agencies[idx];
+  var name = prompt('Име', ag.name);
+  if (name === null) return;
+  var email = prompt('Имейл', ag.email);
+  if (email === null) return;
+  var pass = prompt('Парола', ag.password);
+  if (pass === null) return;
+  agencies[idx] = { name: name, email: email, password: pass };
+  renderAgencies();
 }
 
 // 6) Add / remove agencies
@@ -2320,6 +2362,7 @@ function updateDashboardForAgency() {
 
 // === end broker / master-admin additions ===
     </script>
+<script src="script.js"></script>
 </body>
 </html>
 
