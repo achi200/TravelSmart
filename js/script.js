@@ -84,6 +84,13 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
+        function toggleMobileNav() {
+            var nav = document.querySelector('.navbar-left');
+            if (nav) {
+                nav.classList.toggle('open');
+            }
+        }
+
         // Custom popup functions
         function showCustomPopup(title, message, onConfirm, onCancel) {
             document.getElementById('popupTitle').textContent = title;
