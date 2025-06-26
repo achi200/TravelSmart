@@ -1719,15 +1719,17 @@
         }
 
         function createOfferWithCompany(companyName, price) {
-            var newOfferNumber = 'OF-2025-' + String(offers.length + 1).padStart(3, '0');
-            var newOffer = {
-                id: newOfferNumber,
-                client: 'Нов клиент',
-                destination: currentOfferData.destination,
-                dates: currentOfferData.departureDate + ' - ' + currentOfferData.returnDate,
-                premium: price + ' лв.',
-                company: companyName,
-                travelersCount: currentOfferData.travelersCount,
+           var newOfferNumber = 'OF-2025-' + String(offers.length + 1).padStart(3, '0');
+           var client = prompt('Име на клиента:');
+           if (!client) return;
+           var newOffer = {
+               id: newOfferNumber,
+               client: client,
+               destination: currentOfferData.destination,
+               dates: currentOfferData.departureDate + ' - ' + currentOfferData.returnDate,
+               premium: price + ' лв.',
+               company: companyName,
+               travelersCount: currentOfferData.travelersCount,
                 status: 'offer'
             };
 
